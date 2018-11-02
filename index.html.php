@@ -1,7 +1,3 @@
-<?php
-    include("./php/connectdb.php");
-    $categorieën = array("Nieuwe items", "Kleding", "Mokken", "T-shirts", "Nieuwe luchtmaatschappijen", "Nieuwe gegevensverwerking", "Niewe USB's", "Schoenen", "Speelgoed", "Verpakkings materiaal");
-?>
 <!DOCTYPE html>
 <html lang="en">
 
