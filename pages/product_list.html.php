@@ -1,21 +1,6 @@
 <?php
 include '../php/connectdb.php';
-
-/// this filters an multidimensional array by removing duplicates.
-function unique_multidim_array($array, $key) {
-    $temp_array = array();
-    $i = 0;
-    $key_array = array();
-
-    foreach($array as $val) {
-        if (!in_array($val[$key], $key_array)) {
-            $key_array[$i] = $val[$key];
-            $temp_array[$i] = $val;
-        }
-        $i++;
-    }
-    return $temp_array;
-}
+include '../php/utils.php';
 
 /// Get basic stock item information.
 function getCategoriesStockItemInfo($categoriesId) {
@@ -34,8 +19,7 @@ function getCategoriesStockItemInfo($categoriesId) {
         $product_name = $row["StockItemName"];
         $product_price = $row["UnitPrice"];
 
-        // replace (COLOR) with empty string, colors are show as options for product and not as a product on its own.
-        $product_name = preg_replace('/\((.*?)\)/', '', $product_name);
+        $product_name = remove_color_from_stockitem($product_name);
 
         $item = [
             "StockItemId" => $id,
