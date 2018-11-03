@@ -1,3 +1,13 @@
+<?php
+
+$categorie_id = 1;
+
+if(isset($_GET['categorie_id']) && !empty($_GET['categorie_id'])){
+    $categorie_id = filter_input(INPUT_GET, 'categorie_id', FILTER_VALIDATE_INT);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,14 +60,14 @@
 <div class="container">
 
     <div class="row">
-            <!-- Categorieën inladen -->
+        <!-- Categorieï¿½n inladen -->
         <div class="col-lg-3" w3-include-html="./pages/category_page.html.php"> </div>
 
-            <!-- Product pagina inladen -->
-        <div class="col-lg-9" w3-include-html="./pages/product_list.html.php"> </div>
+        <!-- Product pagina inladen -->
+        <div class="col-lg-9" w3-include-html="./pages/product_list.html.php?categorie_id=<?php echo intval($categorie_id) ?>"</div>
 
-    </div>
-    <!-- /.row -->
+</div>
+<!-- /.row ?-->
 
 </div>
 <!-- /.container -->
