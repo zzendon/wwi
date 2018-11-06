@@ -23,7 +23,7 @@ $pro->execute();
         $product_name = $row["StockItemName"];
         $product_price = $row["RecommendedRetailPrice"];
     }
-
+//moet colorname ophalen van product... Moet nog wel even kijken naar like $product_name weet niet of dat helemaal zo werkt
 $col = $connection->prepare("select ColorName , c.ColorID from colors c left join stockitems s on s.ColorID = C.ColorID where StockItemName LIKE '$product_name'");
 $col->execute();
 $colors = array();
