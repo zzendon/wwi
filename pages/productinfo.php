@@ -3,28 +3,28 @@ include '../php/connectdb.php';
 
 
 //kijkt naar het StockItemID wat je hebt meegegeven aan het product
-//                    if(isset($_GET['id'])){
-//                       $id = preg_replace('#[^0-9]#i', '',$_GET['StockItemID']);
-//                    }
-//                   else{
-//                       echo "no such product exist";
-//                      exit();
-//                    $pdo = null;
-//               }
+                    if(isset($_GET['id'])){
+                       $id = preg_replace('#[^0-9]#i', '',$_GET['StockItemID']);
+                    }
+                   else{
+                       echo "no such product exist";
+                      exit();
+                    $pdo = null;
+               }
 
 //moet het product ophalen doormiddel van een quary
 $connection = getConnection();
-$pro = $connection->prepare("SELECT StockItemID, StockItemName, RecommendedRetailPrice FROM stockitems s WHERE StockItemID = 2");
+$pro = $connection->prepare("SELECT StockItemID, StockItemName, RecommendedRetailPrice FROM stockitems s WHERE StockItemID = $id");
 $pro->execute();
     while ($row = $pro->fetch()) {
         $product_id = $row["StockItemID"];
-        //foto row is blob file werkt nog niet
+        //foto row is blob file werkt nog niet, we gebruiken nu een test foto
         //$photo = $row["Photo"];
         $product_name = $row["StockItemName"];
         $product_price = $row["RecommendedRetailPrice"];
     }
 
-$col = $connection->prepare("select ColorName , c.ColorID from colors c left join stockitems s on s.ColorID = C.ColorID where StockItemName LIKE 'USB%'");
+$col = $connection->prepare("select ColorName , c.ColorID from colors c left join stockitems s on s.ColorID = C.ColorID where StockItemName LIKE '$product_name'");
 $col->execute();
 $colors = array();
 while ($row = $col->fetch()) {
@@ -37,6 +37,12 @@ while ($row = $col->fetch()) {
     ];
     $colors[$color_id] = $color_item;
 }
+
+$tal = $connection->prepare("select count(*) as aantal, StockItemID from stockitems_archive where StockItemID = $id");
+$tal->execute();
+    while ($row = $tal->fetch()){
+        $aan = $row["aantal"];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -135,14 +141,14 @@ while ($row = $col->fetch()) {
                 <div class="row">
                     <div class="col-sm-12">
                         <br>
-                        <!-- form voor het toevoegen aan winkelwagen -->
+                        <!-- button voor het toevoegen aan winkelwagen -->
                         <form method="post">
                             <input type="image" src="../images/Winkel.png" border="0" alt="Submit" style="width: 75px; height: 75px;"/>
                             Toevoegen aan winkelwagen
                         </form>
                         <!-- php code voor hoeveel er nog beschikbaar is -->
                         <?php
-                        print("Nog maar: 4 beschikbaar")
+                        print("Nog maar: " . $aan . " beschikbaar");
                         ?>
 
                     </div>
