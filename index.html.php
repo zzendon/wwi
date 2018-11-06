@@ -6,6 +6,11 @@ if(isset($_GET['categorie_id']) && !empty($_GET['categorie_id'])){
     $categorie_id = filter_input(INPUT_GET, 'categorie_id', FILTER_VALIDATE_INT);
 }
 
+if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
+    $stock_item_id = filter_input(INPUT_GET, 'stock_item_id', FILTER_VALIDATE_INT);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +30,7 @@ if(isset($_GET['categorie_id']) && !empty($_GET['categorie_id'])){
 
     <!-- Custom styles for this template -->
     <link href="css/shop-homepage.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
 
@@ -58,19 +64,24 @@ if(isset($_GET['categorie_id']) && !empty($_GET['categorie_id'])){
 
 <!-- Page Content -->
 <div class="container">
-
     <div class="row">
         <!-- Categorie�n inladen -->
-        <div class="col-lg-3" w3-include-html="./pages/category_page.html.php"> </div>
+        <div class="col-lg-3" w3-include-html="./pages/category_page.php"> </div>
 
-        <!-- Product pagina inladen -->
-        <div class="col-lg-9" w3-include-html="./pages/product_list.html.php?categorie_id=<?php echo intval($categorie_id) ?>"</div>
+        <!-- Check if stockitem was passed to this file because then we know we need to load product information. Other wise just load product overview  -->
+        <?php
+        if (!empty($stock_item_id)) { ?>
+            <!-- Product information page -->
+            <div class="col-lg-9" w3-include-html="./pages/productinfo_page.php?stock_item_id=<?php echo $stock_item_id ?>"</div>
+        <?php } else { ?>
+            <!-- Product overview page -->
+            <div class="col-lg-9" w3-include-html="./pages/productlist_page.php?categorie_id=<?php echo intval($categorie_id) ?>"</div>
+        <?php } ?>
 
+    </div>
 </div>
-<!-- /.row ?-->
 
-</div>
-<!-- /.container -->
+
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
@@ -89,6 +100,7 @@ if(isset($_GET['categorie_id']) && !empty($_GET['categorie_id'])){
 
     includeHTML();
 
+    /// This will load all the pages located in other files. All elements with attribute 'w3-include-html' will be checked.
     function includeHTML() {
         var z, i, elmnt, file, xhttp;
         /*loop through a collection of all HTML elements:*/

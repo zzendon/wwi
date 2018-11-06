@@ -76,10 +76,10 @@ function getCategoriesStockItemInfo($categorie_id) {
         ?>
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-                <a href="./php/product_details.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                <a href="index.html.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
                 <div class="card-body">
                     <h4 class="card-title">
-                        <a href="#"><?php echo $value['StockItemName'] ?></a>
+                        <a href="index.html.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><?php echo $value['StockItemName'] ?></a>
                     </h4>
                     <h5><?php echo $value['UnitPrice'] ?></h5>
                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
