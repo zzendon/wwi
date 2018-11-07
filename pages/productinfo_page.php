@@ -91,13 +91,11 @@ function getStockItemCountInArchive($id)
 <div class="row" style="margin-top: 100px">
     <div class="col-md-7">
         <div class="product col-md-3 service-image-left">
-            <center>
-                <img id="item-display" src="./images/noavatar.png" alt=""></img>
-            </center>
+                <img id="item-display" src="http://placehold.it/400x300" alt=""></img>
         </div>
     </div>
 
-    <div class="col-md-5">
+    <div class="col-md-4">
         <div class="product-title"> <?php echo $productNameTrimmed ?></div>
         <div class="product-desc"> <?php echo $fullProductName ?></div>
         <div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>

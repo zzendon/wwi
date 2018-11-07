@@ -10,7 +10,7 @@ function getConnection() {
         $pdo = new PDO("$db", $user, $pass);
         return $pdo;
         //echo een message wanner connected to database
-        //echo 'Connected to database! </br>';
+        echo 'Connected to database! </br>';
     }
     catch(PDOException $e){
         echo "Error!:". $e->getMessage() . "<br/>";

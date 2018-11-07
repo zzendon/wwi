@@ -8,9 +8,9 @@ function getCategoriesStockItemInfo($categorie_id) {
     $connection = getConnection();
 
     $pro = $connection->prepare(
-        "SELECT s.StockItem" . "Id, s.StockItemName, s.UnitPrice FROM stockitems s 
+        "SELECT s.StockItem" . "Id, s.StockItemName, s.RecommendedRetailPrice FROM stockitems s 
            JOIN stockitemstockgroups sg ON s.StockItemId = sg.StockItemId
-           WHERE sg.StockGroupID=".$categorie_id);
+           WHERE sg.StockGroupID=". $categorie_id);
 
     $pro->execute();
 
@@ -18,14 +18,14 @@ function getCategoriesStockItemInfo($categorie_id) {
     while ($row = $pro->fetch()) {
         $id = $row["StockItemId"];
         $product_name = $row["StockItemName"];
-        $product_price = $row["UnitPrice"];
+        $product_price = $row["RecommendedRetailPrice"];
 
         $product_name = remove_color_from_stockitem($product_name);
 
         $item = [
             "StockItemId" => $id,
             "StockItemName" => $product_name,
-            "UnitPrice" => $product_price,
+            "RecommendedRetailPrice" => $product_price,
         ];
 
         $stockItemsInfo[$id] = $item;
@@ -47,13 +47,13 @@ function getCategoriesStockItemInfo($categorie_id) {
     </ol>
     <div class="carousel-inner" role="listbox">
         <div class="carousel-item active">
-            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+            <img class="d-block img-fluid" src="./images/moc_actie.png" alt="Second slide">
         </div>
         <div class="carousel-item">
-            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+            <img class="d-block img-fluid" src="./images/banaan_usb.png" alt="Second slide">
         </div>
         <div class="carousel-item">
-            <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
+            <img class="d-block img-fluid" src="./images/usb_actie.png" alt="Third slide">
         </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -81,7 +81,7 @@ function getCategoriesStockItemInfo($categorie_id) {
                     <h4 class="card-title">
                         <a href="index.html.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><?php echo $value['StockItemName'] ?></a>
                     </h4>
-                    <h5><?php echo $value['UnitPrice'] ?></h5>
+                    <h5>€ <?php echo $value['RecommendedRetailPrice'] ?></h5>
                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                         Amet numquam aspernatur!</p>
                 </div>

@@ -30,12 +30,12 @@ body {
 					PRODUCTS
 *********************************************/
 .product{
-  border: 1px solid #dddddd;
-  height: 350px;
+  /*border: 1px solid #dddddd;*/
 }
 
 .product>img{
-  max-width: 230px;
+  /*height: 400px;*/
+  /*width: 500px;*/
 }
 
 .product-rating{
@@ -117,7 +117,7 @@ body {
 }
 
 .service-image-left {
-  padding-top: 100px;
+  /*padding-top: 100px;*/
 }
 
 .service-image-right {
