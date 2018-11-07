@@ -123,12 +123,7 @@ function getStockItemCountInArchive($id)
         <hr>
         <div class="btn-group cart">
             <button type="button" class="btn btn-success">
-                Add to cart
-            </button>
-        </div>
-        <div class="btn-group wishlist">
-            <button type="button" class="btn btn-danger">
-                Add to wishlist
+                Toevoegen aan winkelwagen
             </button>
         </div>
     </div>
