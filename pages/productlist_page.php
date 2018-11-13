@@ -8,8 +8,9 @@ function getCategoriesStockItemInfo($categorie_id) {
     $connection = getConnection();
 
     $pro = $connection->prepare(
-        "SELECT s.StockItem" . "Id, s.StockItemName, s.RecommendedRetailPrice FROM stockitems s 
-           JOIN stockitemstockgroups sg ON s.StockItemId = sg.StockItemId
+        "SELECT s.StockItem" . "Id, s.StockItemName, s.RecommendedRetailPrice, r.Stars FROM stockitems s 
+           JOIN stockitemstockgroups sg ON s.StockItemID = sg.StockItemId
+           LEFT JOIN review r ON r.StockItemID = s.StockItemID
            WHERE sg.StockGroupID=". $categorie_id);
 
     $pro->execute();
@@ -19,6 +20,7 @@ function getCategoriesStockItemInfo($categorie_id) {
         $id = $row["StockItemId"];
         $product_name = $row["StockItemName"];
         $product_price = $row["RecommendedRetailPrice"];
+        $stars = $row["Stars"];
 
         $product_name = remove_color_from_stockitem($product_name);
 
@@ -26,6 +28,7 @@ function getCategoriesStockItemInfo($categorie_id) {
             "StockItemId" => $id,
             "StockItemName" => $product_name,
             "RecommendedRetailPrice" => $product_price,
+            "Stars" => $stars,
         ];
 
         $stockItemsInfo[$id] = $item;
@@ -86,7 +89,19 @@ function getCategoriesStockItemInfo($categorie_id) {
                         Amet numquam aspernatur!</p>
                 </div>
                 <div class="card-foo ter">
-                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                    <small class="text-muted">
+                    <?php
+                        $stars = $value["Stars"];
+                        
+                        for ($i = 0; $i < 5; $i++) {
+                            if ($i < $stars) {
+                                echo "&#9733;";
+                            }else {
+                                echo "&#9734;"  ;
+                            }
+                        }
+                    ?>
+                    </small>
                 </div>
             </div>
         </div>
