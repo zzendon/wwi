@@ -1,7 +1,7 @@
 <!doctype html> 
 
 <?php
-    include 'connectdb.php';
+    include './php/connectdb.php';
 ?>
 
 <html lang="en">
@@ -44,7 +44,9 @@
                                             $review_tekst = filter_input(INPUT_GET, "Review");
                                             $review_cijfer = filter_input(INPUT_GET, "Cijfer");
                                             $connection = getConnection();
-                                            $rev = $connection->prepare("INSERT INTO Review (StockItemID, Tekst, Cijfer) VALUES (22, '$review_tekst', '$review_cijfer')");
+                                            print($review_tekst);
+                                            print ($review_tekst);
+                                            $rev = $connection->prepare("INSERT INTO Review (StockItemID, tekst, cijfer) VALUES (22, '$review_tekst', '$review_cijfer')");
                                             $rev->execute(); 
                                         ?>
                                     </div>

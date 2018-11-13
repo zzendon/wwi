@@ -85,9 +85,23 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+        <div class="row">
+        <div class="col-sm text-white">
+                <br><b>Contactgegevens:</b><br/>
+                Wide World Importers, <br/>
+                Campus 2, 8017 CA Zwolle<br/>
+                Telefoon: +852 129 209 291<br/>
+                Mail: <a href="mailto:info@wwi.com">info@wwi.com</a><br />
+        </div>
+            <div class="col-sm text-white">
+                <br><b>Social Media:</b><br/>
+                <a href="https://www.facebook.com/"><i id="social-fb" class="fa fa-facebook-square fa-3x social"></i></a>
+                <a href="https://twitter.com/"><i id="social-tw" class="fa fa-twitter-square fa-3x social"></i></a>
+                <a href="https://instagram.com"><i id="social-in" class="fa fa-instagram fa-3x social" ></i></a>                    
+                <a href="mailto:info@wwi.com"><i id="social-em" class="fa fa-envelope-square fa-3x social"></i></a>
+           </div>
+        </div>
     </div>
-    <!-- /.container -->
 </footer>
 
 <!-- Bootstrap core JavaScript -->

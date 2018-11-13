@@ -1,5 +1,0 @@
-INSERT INTO colors (ColorID, ColorName, LastEditedBy, ValidFrom, ValidTo)
-values (37, 'Green', 1, '2013-01-01 00:00:00', '9999-12-31 23:59:59');
-UPDATE stockitems
-SET ColorID = 37 
-WHERE StockItemName LIKE '%(Green)%';

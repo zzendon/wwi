@@ -17,7 +17,7 @@ $productId = $productInfo["StockItemID"];
 $productNameTrimmed = $productInfo["StockItemNameTrimmed"];
 $fullProductName = $productInfo["StockItemName"];
 $productPrice = $productInfo["RecommendedRetailPrice"];
-
+$stars = $productInfo["ReviewStarts"];
 $itemsAvailible = getStockItemCountInArchive($id);
 
 /// Get basic information from stockitem by stockitem id.
@@ -25,9 +25,8 @@ function getProductInformation() {
     global $id;
 
     $connection = getConnection();
-    $pdo = $connection->prepare("SELECT StockItemID, StockItemName, RecommendedRetailPrice FROM stockitems s WHERE StockItemID ='$id'");
+    $pdo = $connection->prepare("SELECT s.StockItemID, StockItemName, RecommendedRetailPrice, AVG(r.Stars) as Stars FROM stockitems s LEFT JOIN review r ON r.StockItemID = s.StockItemID WHERE s.StockItemID ='$id'");
     $pdo->execute();
-
     $stockItemsInfo = array();
 
     while ($row = $pdo->fetch()) {
@@ -39,9 +38,9 @@ function getProductInformation() {
         $stockItemsInfo["StockItemNameTrimmed"] = $product_name;
         $stockItemsInfo["StockItemName"] = $row["StockItemName"];
         $stockItemsInfo["RecommendedRetailPrice"] = $row["RecommendedRetailPrice"];
+        $stockItemsInfo["ReviewStarts"] = $row["Stars"];
 
     }
-
 
     return $stockItemsInfo;
 }
@@ -51,7 +50,6 @@ function getAvailableColors() {
     global $productNameTrimmed;
 
     $connection = getConnection();
-
 
     $col = $connection->prepare("SELECT c.ColorName , c.ColorID FROM colors c LEFT JOIN stockitems s ON s.ColorID = c.ColorID WHERE StockItemName LIKE '$productNameTrimmed%'");
     $col->execute();
@@ -98,11 +96,22 @@ function getStockItemCountInArchive($id)
     <div class="col-md-4">
         <div class="product-title"> <?php echo $productNameTrimmed ?></div>
         <div class="product-desc"> <?php echo $fullProductName ?></div>
-        <div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+        <div class="product-rating">
+            <?php
+                for ($i = 0; $i < 5; $i++) {
+                    if ($i < $stars) {
+                        echo "<i class=\"fa fa-star gold\"></i>";
+                    }else {
+                        echo "<i class=\"fa fa-star-o\"></i>"  ;
+                    }
+                }
+            ?>
+        </div>
         <hr>
         <div class="product-price">&euro; <?php echo $productPrice ?></div>
         <h6 class="title-attr" style="margin-top:15px;" ><small>Kleur</small></h6>
 
+        <!-- --->
         <?php
         $colorOptions = getAvailableColors();
 
@@ -130,6 +139,27 @@ function getStockItemCountInArchive($id)
             <ul id="myTab" class="nav nav-tabs nav_tabs">
                 <li><a href="#service-three" data-toggle="tab">REVIEWS</a></li>
             </ul>
+            <form method="POST" action="./php/product_review_handler.php?stock_item_id=<?php echo $productId ?>" onsubmit="alert('Bedankt voor uw review!')">
+                <label for="review">Schrijf een korte review over <?php print $productNameTrimmed?></label>
+                    <textarea class="form-control animated" cols="65" id="review" name="review" placeholder="Type hier u review..." rows="4"></textarea>
+                    <!-- Cijfer-->
+                    <div class="form-group" id="cijfer">
+                        <label for="Cijfer">Geeft een cijfer aan het product</label>
+                        <select class="form-control" id="cijfer" name="cijfer" required>
+                            <option value="">Geef een cijfer</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <div class="invalid-feedback">Example invalid custom select feedback</div>
+                    </div>
+                    <!--Submit knop-->
+                    <button class="btn btn-success mb-2" type="submit" name="versturen" id="versturen">Versturen</button>
+            </form>
+        </div>
+
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade in active" id="service-one">
 
