@@ -25,7 +25,7 @@ function getProductInformation() {
     global $id;
 
     $connection = getConnection();
-    $pdo = $connection->prepare("SELECT s.StockItemID, StockItemName, RecommendedRetailPrice, AVG(r.Stars) as Stars FROM stockitems s LEFT JOIN review r ON r.StockItemID = s.StockItemID WHERE s.StockItemID ='$id'");
+    $pdo = $connection->prepare("SELECT s.StockItemID, StockItemName, RecommendedRetailPrice, AVG(r.Stars) as Stars, r.Tekst, r.Stars as rstars FROM stockitems s LEFT JOIN review r ON r.StockItemID = s.StockItemID WHERE s.StockItemID ='$id'");
     $pdo->execute();
     $stockItemsInfo = array();
 
@@ -39,10 +39,37 @@ function getProductInformation() {
         $stockItemsInfo["StockItemName"] = $row["StockItemName"];
         $stockItemsInfo["RecommendedRetailPrice"] = $row["RecommendedRetailPrice"];
         $stockItemsInfo["ReviewStarts"] = $row["Stars"];
+        $stockItemsInfo["ReviewTekst"] = $row["Tekst"];
+        $stockItemsInfo["ReviewStars"] = $row["rstars"];
 
     }
 
     return $stockItemsInfo;
+}
+
+function getReviews(){
+    global $id;
+
+    $connection = getConnection();
+    $rev = $connection->prepare("SELECT Tekst, Stars, ReviewId FROM Review where StockItemID ='$id'");
+    $rev->execute();
+
+    $reviews = array();
+
+    while ($row = $rev->fetch()) {
+        $reviews_Tekst= $row["Tekst"];
+        $reviews_Stars= $row["Stars"];
+        $reviewsID= $row["ReviewId"];
+
+
+        $reviews_item = [
+                "ReviewTekst" => $reviews_Tekst,
+                "ReviewStars" => $reviews_Stars
+        ];
+        $reviews[$reviewsID] = $reviews_item;
+    }
+
+    return $reviews;
 }
 
 /// Get available colors by product name.
@@ -158,27 +185,67 @@ function getStockItemCountInArchive($id)
                     <!--Submit knop-->
                     <button class="btn btn-success mb-2" type="submit" name="versturen" id="versturen">Versturen</button>
             </form>
-        </div>
+            <br>
+            <div class="col-md-12">
+                <?php
+                $getReview = getReviews();
 
-            <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade in active" id="service-one">
-
-                    <section class="container product-info">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at.
-                    </section>
-
-                </div>
-                <div class="tab-pane fade" id="service-two">
-
-                    <section class="container">
-
-                    </section>
-
-                </div>
-                <div class="tab-pane fade" id="service-three">
-
-                </div>
+                if(empty($colorOptions)){
+                    print("Geen reviews voor dit product");
+                } else {
+                    foreach ($getReview as $key => $value) {
+                        if ($value['ReviewStars'] == "1") {
+                            ?>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star white"></i>
+                            <i class="fa fa-star white"></i>
+                            <i class="fa fa-star white"></i>
+                            <i class="fa fa-star white"></i>
+                            <br>
+                            <?php
+                        } elseif ($value['ReviewStars'] == "2") {
+                            ?>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star white"></i>
+                            <i class="fa fa-star white"></i>
+                            <i class="fa fa-star white"></i>
+                            <br>
+                            <?php
+                        } elseif ($value['ReviewStars'] == "3") {
+                            ?>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star white"></i>
+                            <i class="fa fa-star white"></i>
+                            <br>
+                            <?php
+                        } elseif ($value['ReviewStars'] == "4") {
+                            ?>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star white"></i>
+                            <br>
+                            <?php
+                        } elseif ($value['ReviewStars'] == "5") {
+                            ?>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star gold"></i>
+                            <i class="fa fa-star gold"></i>
+                            <br>
+                            <?php
+                        }
+                        print ($value['ReviewTekst'] . "<br><hr>");
+                    }
+                }
+                ?>
             </div>
+        </div>
             <hr>
         </div>
     </div>
