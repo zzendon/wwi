@@ -130,6 +130,27 @@ function getStockItemCountInArchive($id)
             <ul id="myTab" class="nav nav-tabs nav_tabs">
                 <li><a href="#service-three" data-toggle="tab">REVIEWS</a></li>
             </ul>
+            <form method="POST" action="./php/product_review_handler.php?stock_item_id=<?php echo $productId ?>" onsubmit="alert('Bedankt voor uw review!')">
+                <label for="review">Schrijf een korte review over <?php print $productNameTrimmed?></label>
+                    <textarea class="form-control animated" cols="65" id="review" name="review" placeholder="Type hier u review..." rows="4"></textarea>
+                    <!-- Cijfer-->
+                    <div class="form-group" id="cijfer">
+                        <label for="Cijfer">Geeft een cijfer aan het product</label>
+                        <select class="form-control" id="cijfer" name="cijfer" required>
+                            <option value="">Geef een cijfer</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <div class="invalid-feedback">Example invalid custom select feedback</div>
+                    </div>
+                    <!--Submit knop-->
+                    <button class="btn btn-success mb-2" type="submit" name="versturen" id="versturen">Versturen</button>
+            </form>
+        </div>
+
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade in active" id="service-one">
 
