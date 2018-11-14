@@ -12,7 +12,6 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
 
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,7 +64,6 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
 <!-- Page Content -->
 <div class="container">
     <div class="row">
-        <!-- Categorie�n inladen -->
         <div class="col-lg-3" w3-include-html="./pages/category_page.php"> </div>
 
         <!-- Check if stockitem was passed to this file because then we know we need to load product information. Other wise just load product overview  -->

@@ -1,6 +1,7 @@
 ﻿<?php
 include '../php/connectdb.php';
 include '../php/utils.php';
+include '../php/php_session.php';
 
 //kijkt naar het StockItemID wat je hebt meegegeven aan het product
 if(isset($_GET['stock_item_id'])){
@@ -131,6 +132,7 @@ function getStockItemCountInArchive($id)
         <div class="btn-group cart">
             <button type="button" class="btn btn-success">
                 Toevoegen aan winkelwagen
+                <!-- Hier moet de StockItemID worden toegevoegd aan de $_SESSION["product_id"] array voor het winkelmandje-->
             </button>
         </div>
     </div>
