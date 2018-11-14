@@ -54,7 +54,7 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
                     <a class="nav-link" href="#">Account</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Over ons</a>
+                    <a class="nav-link" href="pages/overons_page.html.php">Over ons</a>
                 </li>
             </ul>
         </div>
