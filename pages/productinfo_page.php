@@ -21,6 +21,29 @@ $productPrice = $productInfo["RecommendedRetailPrice"];
 $stars = $productInfo["ReviewStarts"];
 $itemsAvailible = getStockItemCountInArchive($id);
 
+function getReviews(){
+    global $id;
+
+    $connection = getConnection();
+    $rev = $connection->prepare("SELECT Tekst, Stars, ReviewID FROM Review where StockItemID ='$id'");
+    $rev->execute();
+
+    $reviews = array();
+
+    while ($row = $rev->fetch()) {
+        $reviewsTekst = $row["Tekst"];
+        $reviewsStars = $row["Stars"];
+        $reviewsID = $row["ReviewID"];
+
+        $reviews_item = [
+            "ReviewTekst" => $reviewsTekst,
+            "ReviewStars" => $reviewsStars
+        ];
+        $reviews[$reviewsID] = $reviews_item;
+    }
+    return $reviews;
+}
+
 /// Get basic information from stockitem by stockitem id.
 function getProductInformation() {
     global $id;
@@ -75,7 +98,7 @@ function getAvailableColors() {
 function getStockItemCountInArchive($id)
 {
     $connection = getConnection();
-    $tal = $connection->prepare("SELECT count(*) as aantal, StockItemID FROM stockitems_archive WHERE StockItemID ='$id'");
+    $tal = $connection->prepare("SELECT QuantityOnHand as aantal FROM stockitemholdings WHERE StockItemID ='$id'");
     $tal->execute();
 
     while ($row = $tal->fetch()) {
@@ -161,28 +184,30 @@ function getStockItemCountInArchive($id)
                     <button class="btn btn-success mb-2" type="submit" name="versturen" id="versturen">Versturen</button>
             </form>
         </div>
+        <?php
+        $getReview = getReviews();
 
-            <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade in active" id="service-one">
+        if (empty($getReview)) {
+                print("Geen reviews voor dit product");
+            } else {
+            foreach ($getReview as $key => $value) {
+                $stars = $value['ReviewStars'];
+                for ($i = 0; $i < 5; $i++) {
+                    if ($i < $stars) {
+                        echo "<i class=\"fa fa-star gold\"></i>";
+                    } else {
+                        echo "<i class=\"fa fa-star-o\"></i>";
+                    }
 
-                    <section class="container product-info">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at.
-                    </section>
 
-                </div>
-                <div class="tab-pane fade" id="service-two">
+                }
+                print ("<br>" . $value['ReviewTekst'] . "<br><hr>");
+            }
 
-                    <section class="container">
-
-                    </section>
-
-                </div>
-                <div class="tab-pane fade" id="service-three">
-
-                </div>
+        }
+                ?>
             </div>
             <hr>
         </div>
     </div>
 </div>
-
