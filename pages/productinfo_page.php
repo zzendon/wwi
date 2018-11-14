@@ -97,7 +97,7 @@ function getAvailableColors() {
 function getStockItemCountInArchive($id)
 {
     $connection = getConnection();
-    $tal = $connection->prepare("SELECT count(*) as aantal, StockItemID FROM stockitems_archive WHERE StockItemID ='$id'");
+    $tal = $connection->prepare("SELECT QuantityOnHand as aantal FROM stockitemholdings WHERE StockItemID ='$id'");
     $tal->execute();
 
     while ($row = $tal->fetch()) {
