@@ -31,6 +31,10 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
     <link href="css/shop-homepage.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+
 </head>
 
 <body>
