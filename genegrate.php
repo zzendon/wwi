@@ -22,10 +22,12 @@ $pro->execute();
 
 while ($row = $pro->fetch()) {
     $stockItemId = $row["StockItemId"];
-    $review = $reviews[random_int(0, count($reviews)  - 1 )];
-    $star = random_int(1,5);
-    $rev = $connection->prepare("INSERT INTO review (StockItemID, Tekst, Stars) VALUES('$stockItemId', '$review', '$star')");
-    $rev->execute();
-    print_r($rev->errorInfo());
+
+    for ($i = 0; $i < random_int(1,5); $i++) {
+        $review = $reviews[random_int(0, count($reviews) - 1)];
+        $star = random_int(1, 5);
+        $rev = $connection->prepare("INSERT INTO review (StockItemID, Tekst, Stars) VALUES('$stockItemId', '$review', '$star')");
+        $rev->execute();
+    }
 }
 
