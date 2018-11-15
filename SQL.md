@@ -63,6 +63,7 @@ while ($row = $pro->fetch()) {
 }
 ```
 
+<<<<<<< HEAD
 # Customer Table
 ```
 CREATE TABLE `customer` (
@@ -88,3 +89,72 @@ ALTER TABLE `customer`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 ```
+=======
+#aanmaken tabel reviewbedrijf
+
+-- phpMyAdmin SQL Dump
+-- version 4.8.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Gegenereerd op: 14 nov 2018 om 12:02
+-- Serverversie: 10.1.35-MariaDB
+-- PHP-versie: 7.2.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `wideworldimporters`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `review`
+--
+
+CREATE TABLE `review_bedrijf` (
+  `ReviewBedrijfId` int(45) NOT NULL,
+  `BedrijfID` int(11) NOT NULL,
+  `Tekst` varchar(45) DEFAULT NULL,
+  `Stars` int(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `review`
+--
+
+--
+-- Indexen voor geëxporteerde tabellen
+--
+
+--
+-- Indexen voor tabel `review`
+--
+ALTER TABLE `review_bedrijf`
+  ADD PRIMARY KEY (`ReviewBedrijfId`) USING BTREE;
+
+--
+-- AUTO_INCREMENT voor geëxporteerde tabellen
+--
+
+--
+-- AUTO_INCREMENT voor een tabel `review`
+--
+ALTER TABLE `review_bedrijf`
+  MODIFY `ReviewBedrijfId` int(45) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=237;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+>>>>>>> Review bedrijf aanmaken en inzien
