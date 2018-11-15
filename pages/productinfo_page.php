@@ -25,7 +25,7 @@ function getReviews(){
     global $id;
 
     $connection = getConnection();
-    $rev = $connection->prepare("SELECT Tekst, Stars, ReviewID FROM Review where StockItemID ='$id'");
+    $rev = $connection->prepare("SELECT Tekst, Stars, ReviewID FROM review where StockItemID ='$id'");
     $rev->execute();
 
     $reviews = array();
@@ -41,6 +41,7 @@ function getReviews(){
         ];
         $reviews[$reviewsID] = $reviews_item;
     }
+
     return $reviews;
 }
 
@@ -184,28 +185,28 @@ function getStockItemCountInArchive($id)
                     <button class="btn btn-success mb-2" type="submit" name="versturen" id="versturen">Versturen</button>
             </form>
         </div>
-        <?php
-        $getReview = getReviews();
+            <?php
+            $getReview = getReviews();
 
-        if (empty($getReview)) {
-                print("Geen reviews voor dit product");
-            } else {
-            foreach ($getReview as $key => $value) {
-                $stars = $value['ReviewStars'];
-                for ($i = 0; $i < 5; $i++) {
-                    if ($i < $stars) {
-                        echo "<i class=\"fa fa-star gold\"></i>";
-                    } else {
-                        echo "<i class=\"fa fa-star-o\"></i>";
+                    if (empty($getReview)) {
+                            print("Geen reviews voor dit product");
+                        } else {
+                        foreach ($getReview as $key => $value) {
+                            $stars = $value['ReviewStars'];
+                            for ($i = 0; $i < 5; $i++) {
+                                if ($i < $stars) {
+                                    echo "<i class=\"fa fa-star gold\"></i>";
+                                } else {
+                                    echo "<i class=\"fa fa-star-o\"></i>";
+                                }
+
+
+                            }
+                            print ("<br>" . $value['ReviewTekst'] . "<br><hr>");
+                        }
+
                     }
-
-
-                }
-                print ("<br>" . $value['ReviewTekst'] . "<br><hr>");
-            }
-
-        }
-                ?>
+             ?>
             </div>
             <hr>
         </div>

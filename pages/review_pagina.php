@@ -22,7 +22,7 @@
                             <h1>Review</h1>                      
                         <div class="row" id="review-box">
                             <div class="col-md-12">
-                                <form action="review_pagina.html.php" method="get" onsubmit="alert('Bedankt voor uw review!')">
+                                <form action="review_pagina.php" method="get" onsubmit="alert('Bedankt voor uw review!')">
                                 <label for="review">Schrijf een korte review over ....</table>
                                 <textarea class="form-control animated" cols="65" id="Review" name="Review" placeholder="Type hier u review..." rows="4"></textarea>
 <!-- Cijfer-->              
