@@ -1,3 +1,28 @@
+<?php
+include "../php/connectdb.php";
+function getReviews(){
+
+    $connection = getConnection();
+    $rev = $connection->prepare("SELECT Tekst, Stars, ReviewBedrijfID FROM review_bedrijf where BedrijfID =1");
+    $rev->execute();
+
+    $reviews = array();
+
+    while ($row = $rev->fetch()) {
+        $reviewsTekst = $row["Tekst"];
+        $reviewsStars = $row["Stars"];
+        $reviewsID = $row["ReviewBedrijfID"];
+
+        $reviews_item = [
+            "ReviewTekst" => $reviewsTekst,
+            "ReviewStars" => $reviewsStars
+        ];
+        $reviews[$reviewsID] = $reviews_item;
+    }
+    return $reviews;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,9 +98,60 @@
                 </div>
             </div>
         </div>
-    </div>
+
 <hr>
+    <div class="container-fluid">
+        <div class="col-md-7 product-info">
+            <ul id="myTab" class="nav nav-tabs nav_tabs">
+                <li><a href="#service-three" data-toggle="tab">REVIEWS OVER WWI</a></li>
+            </ul>
+            <form method="POST" action="../php/bedrijf_review_handler.php" onsubmit="alert('Bedankt voor uw review!')">
+                <label for="review">Schrijf een korte review over Wide World Importers</label>
+                <textarea class="form-control animated" cols="65" id="review" name="review" placeholder="Type hier u review..." rows="4"></textarea>
+                <!-- Cijfer-->
+                <div class="form-group" id="cijfer">
+                    <label for="Cijfer">Geeft een cijfer aan het product</label>
+                    <select class="form-control" id="cijfer" name="cijfer" required>
+                        <option value="">Geef een cijfer</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <div class="invalid-feedback">Example invalid custom select feedback</div>
+                </div>
+                <!--Submit knop-->
+                <button class="btn btn-success mb-2" type="submit" name="versturen" id="versturen">Versturen</button>
+            </form>
+        </div>
+        <div class="col-md-7">
+        <?php
+        $getReview = getReviews();
+
+        if (empty($getReview)) {
+            print("Geen reviews over Wide World Importers");
+        } else {
+            foreach ($getReview as $key => $value) {
+                $stars = $value['ReviewStars'];
+                for ($i = 0; $i < 5; $i++) {
+                    if ($i < $stars) {
+                        echo "<i class=\"fa fa-star gold\"></i>";
+                    } else {
+                        echo "<i class=\"fa fa-star-o\"></i>";
+                    }
+
+
+                }
+                print ("<br>" . $value['ReviewTekst'] . "<br><hr>");
+            }
+
+        }
+        ?>
+        </div>
+    </div>
 </div>
+
 
 
 

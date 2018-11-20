@@ -41,13 +41,13 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
             </div>
         </div>
         <div class="main-login main-center">
-            <form class="form-horizontal" method="post" action="../php/register.php">
+            <form class="form-horizontal" method="post" action="../php/login.php">
                 <div class="form-group">
-                    <label for="email" class="cols-sm-2 control-label">Uw Email</label>
+                    <label for="email" class="cols-sm-2 control-label">Email</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                            <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+                            <input type="email"  class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
                         </div>
                     </div>
                 </div>
@@ -57,26 +57,14 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+                            <input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="confirm" class="cols-sm-2 control-label">Bevestig Wachtwoord</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+                    <div class="form-group ">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
                     </div>
-                </div>
-
-                <div class="form-group ">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Registreer</button>
-                </div>
-                <div class="login-register">
-                    <a href="index.php">Login</a>
-                </div>
                     <div class="">
                         <div class="error_message"><?php if (!empty($error_message)) { echo "<p style='color: #dc3545'>".$error_message."</p>"; } ?></div>
                     </div>
