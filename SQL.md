@@ -62,29 +62,3 @@ while ($row = $pro->fetch()) {
     print_r($rev->errorInfo());
 }
 ```
-
-# Customer Table
-```
-CREATE TABLE `customer` (
-  `Id` int(11) NOT NULL,
-  `FirstName` varchar(40) NOT NULL,
-  `LastName` varchar(40) NOT NULL,
-  `Address1` varchar(40) NOT NULL,
-  `Address2` varchar(40) NOT NULL,
-  `Language` varchar(40) NOT NULL,
-  `Country` varchar(40) NOT NULL,
-  `PostalCode` varchar(40) NOT NULL,
-  `City` varchar(40) NOT NULL,
-  `PhoneNumber` varchar(40) NOT NULL,
-  `Email` varchar(40) NOT NULL,
-  `Password` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-ALTER TABLE `customer`
-  ADD PRIMARY KEY (`Id`);
-
-ALTER TABLE `customer`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
-COMMIT;
-```
