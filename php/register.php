@@ -1,22 +1,10 @@
 <?php
 include 'connectdb.php';
+include 'utils.php';
 
-$email = filter_input(INPUT_POST, "email");
-$password = filter_input(INPUT_POST, "password");
-$confirmedPassword = filter_input(INPUT_POST, "confirm");
-
-/// Checks if user exists in database.
-function doesUserExists($email) {
-    $connection = getConnection();
-    $query = $connection->prepare("SELECT Id FROM login where Email ='$email'");
-    $query->execute();
-
-    if ($query->rowCount() == 0) {
-        return false;
-    }
-
-    return true;
-}
+$email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);
+$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
+$confirmedPassword = filter_input(INPUT_POST, "confirm", FILTER_SANITIZE_STRING);
 
 /// Create new user from the given email and password.
 function createNewUser($email, $password) {
@@ -26,7 +14,7 @@ function createNewUser($email, $password) {
     $query->execute();
 
     if ($query->errorInfo().count() == 0) {
-        header("Location: ../login.html.php");
+        header("Location: ../pages/login_page.php");
     }
 }
 

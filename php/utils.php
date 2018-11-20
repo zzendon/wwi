@@ -21,3 +21,16 @@ function remove_color_from_stockitem($stock_item_name)
 {
     return preg_replace('/\((.*?)\)/', '', $stock_item_name);
 }
+
+/// Checks if user exists in database.
+function doesUserExists($email) {
+    $connection = getConnection();
+    $query = $connection->prepare("SELECT Id FROM login where Email ='$email'");
+    $query->execute();
+
+    if ($query->rowCount() == 0) {
+        return false;
+    }
+
+    return true;
+}
