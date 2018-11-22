@@ -41,7 +41,7 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html.php">Wide World Importers</a>
+        <a class="navbar-brand" href="index.html.php"><img class="img-responsive" width="195" height="71" src="images/logo.png"/></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -57,6 +57,9 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
                     <a class="nav-link" href="#">Account</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="pages/register_page.php">Login</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="pages/overons_page.html.php">Over ons</a>
                 </li>
             </ul>
@@ -65,7 +68,7 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
 </nav>
 
 <!-- Page Content -->
-<div class="container">
+<div class="container" style="margin-top: 35px">
     <div class="row">
         <div class="col-lg-3" w3-include-html="./pages/category_page.php"> </div>
 
@@ -73,10 +76,10 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
         <?php
         if (!empty($stock_item_id)) { ?>
             <!-- Product information page -->
-            <div class="col-lg-9" w3-include-html="./pages/productinfo_page.php?stock_item_id=<?php echo $stock_item_id ?>"</div>
+            <div class="col-lg-9" w3-include-html="./pages/productinfo_page.php?stock_item_id=<?php echo $stock_item_id ?>"></div>
         <?php } else { ?>
             <!-- Product overview page -->
-            <div class="col-lg-9" w3-include-html="./pages/productlist_page.php?categorie_id=<?php echo intval($categorie_id) ?>"</div>
+            <div class="col-lg-9" w3-include-html="./pages/productlist_page.php?categorie_id=<?php echo intval($categorie_id) ?>"></div>
         <?php } ?>
 
     </div>
