@@ -7,6 +7,10 @@ if(isset($_GET['categorie_id']) && !empty($_GET['categorie_id'])){
     $categorie_id = filter_input(INPUT_GET, 'categorie_id', FILTER_VALIDATE_INT);
 }
 
+if(isset($_GET['page']) && !empty($_GET['page'])){
+    $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
+}
+
 if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
     $stock_item_id = filter_input(INPUT_GET, 'stock_item_id', FILTER_VALIDATE_INT);
 }
@@ -34,6 +38,17 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
 
+    <script type="application/javascript">
+        function nextProductPage(categorie, page) {
+            page = parseInt(page) + 1;
+            window.location.href = "./index.html.php?categorie_id".concat(categorie, "&page=", page);
+        }
+
+        function previousProductPage(categorie, page) {
+            page = parseInt(page) - 1;
+            window.location.href = "./index.html.php?categorie_id".concat(categorie, "&page=", page);
+        }
+    </script>
 </head>
 
 <body>
@@ -130,10 +145,14 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
             if (file) {
                 /*make an HTTP request using the attribute value as the file name:*/
                 xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
+                xhttp.onreadystatechange = function () {
                     if (this.readyState == 4) {
-                        if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-                        if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                        if (this.status == 200) {
+                            elmnt.innerHTML = this.responseText;
+                        }
+                        if (this.status == 404) {
+                            elmnt.innerHTML = "Page not found.";
+                        }
                         /*remove the attribute, and call this function once more:*/
                         elmnt.removeAttribute("w3-include-html");
                         includeHTML();
@@ -145,6 +164,8 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
                 return;
             }
         }
+
+
     }
 </script>
 </html>

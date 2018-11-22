@@ -2,6 +2,40 @@
 include '../php/connectdb.php';
 include '../php/utils.php';
 
+const PRODUCTS_PER_PAGE = 9;
+$categorie_id = filter_input(INPUT_GET, 'categorie_id', FILTER_SANITIZE_SPECIAL_CHARS);
+$page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS);
+$stockitems = getCategoriesStockItemInfo($categorie_id);
+$pages = getPages($stockitems);
+
+if ($page >= getPageCount(count($stockitems)) - 1) {
+    $page = getPageCount(count($stockitems)) - 1;
+}else if ($page == 0) {
+    $page += 1;
+}
+
+
+function getPageCount($stockItemCount) {
+    $remainder = $stockItemCount % PRODUCTS_PER_PAGE > 0 ? 1 : 0;
+    $pages_count = ($stockItemCount / PRODUCTS_PER_PAGE) + $remainder;
+
+    return  ceil($pages_count);
+}
+
+function getPages($stockitems) {
+    $pages = array();
+
+    $stockitem_count = count($stockitems);
+    $pages_count = getPageCount($stockitem_count);
+
+    for ($i = 0; $i < $pages_count; $i++) {
+        // get start end pos in buffer
+        $start_pos = $i * PRODUCTS_PER_PAGE;
+        $pages[$i] = array_slice($stockitems,$start_pos, PRODUCTS_PER_PAGE);
+    }
+
+    return $pages;
+}
 
 /// Get basic stock item information.
 function getCategoriesStockItemInfo($categorie_id) {
@@ -41,6 +75,7 @@ function getCategoriesStockItemInfo($categorie_id) {
 
     return $result;
 }
+
 ?>
 <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -68,44 +103,61 @@ function getCategoriesStockItemInfo($categorie_id) {
         <span class="sr-only">Next</span>
     </a>
 </div>
-
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        <?php
+            for ($i = 0; $i < count($pages); $i++ ) {
+                echo " <li class=\"page-item\"><a class=\"page-link\" href=\"index.html.php?categorie_id=$categorie_id&page=$i\">". ($i + 1) ."</a></li>";
+            }
+        ?>
+        <li class="page-item">
+            <a class="page-link" onclick="nextProductPage(<?php echo $categorie_id ?>, <?php echo $page ?>)">Next</a>
+        </li>
+    </ul>
+</nav>
 <div class="row">
     <?php
-    $categorie_id = filter_input(INPUT_GET, 'categorie_id', FILTER_SANITIZE_SPECIAL_CHARS);
 
-    $items = getCategoriesStockItemInfo($categorie_id);
+    if (array_key_exists($page, $pages)) {
+        $items = $pages[$page];
 
-    foreach ($items as $key => $value) {
-        ?>
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-                <a href="index.html.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="index.html.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><?php echo $value['StockItemName'] ?></a>
-                    </h4>
-                    <h5>€ <?php echo $value['RecommendedRetailPrice'] ?></h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                        Amet numquam aspernatur!</p>
-                </div>
-                <div class="card-foo ter">
-                    <small class="text-muted">
-                    <?php
-                        $stars = $value["Stars"];
-                        
-                        for ($i = 0; $i < 5; $i++) {
-                            if ($i < $stars) {
-                                echo "&#9733;";
-                            }else {
-                                echo "&#9734;"  ;
+        foreach ($items as $key => $value) {
+            ?>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <a href="index.html.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><img class="card-img-top"
+                                                                                                    src="http://placehold.it/700x400"
+                                                                                                    alt=""></a>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a href="index.html.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><?php echo $value['StockItemName'] ?></a>
+                        </h4>
+                        <h5>€ <?php echo $value['RecommendedRetailPrice'] ?></h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Amet numquam aspernatur!</p>
+                    </div>
+                    <div class="card-foo ter">
+                        <small class="text-muted">
+                            <?php
+                            $stars = $value["Stars"];
+
+                            for ($i = 0; $i < 5; $i++) {
+                                if ($i < $stars) {
+                                    echo "&#9733;";
+                                } else {
+                                    echo "&#9734;";
+                                }
                             }
-                        }
-                    ?>
-                    </small>
+                            ?>
+                        </small>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php
+            <?php
+        }
     }
     ?>
 </div>
