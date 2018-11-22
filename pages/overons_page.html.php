@@ -49,7 +49,7 @@ function getReviews(){
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html.php">Wide World Importers > Over ons </a>
+        <a class="navbar-brand" href="../index.html.php"><img class="img-responsive" width="195" height="71" src="../images/logo.png"/></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -61,6 +61,9 @@ function getReviews(){
                 <li class="nav-item">
                     <a class="nav-link" href="#">Account</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../pages/register_page.php">Login</a>
+                </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="../pages/overons_page.html.php">Over ons</a>
                     <span class="sr-only">(current)</span>
@@ -70,7 +73,7 @@ function getReviews(){
     </div>
 </nav>
 
-<div class="about-section paddingTB60">
+<div class="about-section paddingTB60" style="margin-top: 40px">
     <div class="container">
         <div class="row">
             <div class="col-md-7 col-sm-6">
@@ -83,7 +86,7 @@ function getReviews(){
                     <img class="d-block img-fluid rounded mx-auto" src="../images/pand.png"/><br>    
                 </div>      
             </div>
-            <div class="col-sm">
+            <div class="col-sm" style="style=margin-top: 35px">
                 <br><b>Contactgegevens:</b><br/>
                 Wide World Importers, <br/>
                 Campus 2, 8017 CA Zwolle<br/>
