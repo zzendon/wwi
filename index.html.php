@@ -42,12 +42,12 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
     <script type="application/javascript">
         function nextProductPage(categorie, page) {
             page = parseInt(page) + 1;
-            window.location.href = "./index.html.php?categorie_id".concat(categorie, "&page=", page);
+            window.location.href = "./index.html.php?categorie_id=".concat(categorie, "&page=", page);
         }
 
         function previousProductPage(categorie, page) {
             page = parseInt(page) - 1;
-            window.location.href = "./index.html.php?categorie_id".concat(categorie, "&page=", page);
+            window.location.href = "./index.html.php?categorie_id=".concat(categorie, "&page=", page);
         }
     </script>
 </head>

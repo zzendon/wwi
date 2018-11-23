@@ -12,7 +12,11 @@ $pages = getPages($stockitems);
 // if page is to low stay at lowest page if page is to high stay at highest page.
 if ($page >= count($pages) -1) {
     $page = count($pages) -2;
-}else if ($page == 0) {
+}
+else if (empty($page) && count($pages) != 0) {
+    $page = 0;
+}
+else if ($page <= 0) {
     $page += 1;
 }
 

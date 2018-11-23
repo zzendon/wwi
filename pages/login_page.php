@@ -41,7 +41,12 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
             </div>
         </div>
         <div class="main-login main-center">
+            <div class="back-button">
+                <a href="../index.html.php">Terug naar webshop</a>
+            </div>
             <form class="form-horizontal" method="post" action="../php/login.php">
+
+
                 <div class="form-group">
                     <label for="email" class="cols-sm-2 control-label">Email</label>
                     <div class="cols-sm-10">

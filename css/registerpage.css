@@ -72,6 +72,12 @@ input::-webkit-input-placeholder {
     text-align: center;
 }
 
+.back-button{
+    position: relative;
+    font-size: 10px;
+    text-align: left;
+}
+
 .error_message {
     text-align: center;
     padding-top: 20px;
