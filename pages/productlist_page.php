@@ -55,14 +55,13 @@ function getPages($stockitems) {
 }
 
 /// Get basic stock item information.
-function getCategoriesStockItemInfo($categorie_id) {
+function getCategoriesStockItemInfo($category_id) {
     $connection = getConnection();
 
-    $pro = $connection->prepare(
-        "SELECT s.StockItem" . "Id, s.StockItemName, s.RecommendedRetailPrice, r.Stars FROM stockitems s 
+    $pro = $connection->prepare("SELECT s.StockItemId, s.StockItemName, s.RecommendedRetailPrice, AVG(r.Stars) FROM stockitems s 
            JOIN stockitemstockgroups sg ON s.StockItemID = sg.StockItemId
            LEFT JOIN review r ON r.StockItemID = s.StockItemID
-           WHERE sg.StockGroupID=". $categorie_id);
+           WHERE sg.StockGroupID='$category_id' GROUP BY s.StockItemID");
 
     $pro->execute();
 
@@ -71,7 +70,7 @@ function getCategoriesStockItemInfo($categorie_id) {
         $id = $row["StockItemId"];
         $product_name = $row["StockItemName"];
         $product_price = $row["RecommendedRetailPrice"];
-        $stars = $row["Stars"];
+        $stars = $row["AVG(r.Stars)"];
 
         $product_name = remove_color_from_stockitem($product_name);
 
@@ -164,14 +163,13 @@ function getCategoriesStockItemInfo($categorie_id) {
                         <small class="text-muted">
                             <?php
                             $stars = $value["Stars"];
-
-                            for ($i = 0; $i < 5; $i++) {
-                                if ($i < $stars) {
-                                    echo "&#9733;";
-                                } else {
-                                    echo "&#9734;";
+                                for ($i = 0; $i < 5; $i++) {
+                                    if ($i < $stars) {
+                                        echo "<i class=\"fa fa-star gold\"></i>";
+                                    }else {
+                                        echo "<i class=\"fa fa-star-o\"></i>"  ;
+                                    }
                                 }
-                            }
                             ?>
                         </small>
                     </div>
