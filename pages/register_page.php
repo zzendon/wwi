@@ -75,11 +75,11 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
                     <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Registreer</button>
                 </div>
                 <div class="login-register">
-                    <a href="index.php">Login</a>
+                    <a href="login_page.php">Al een account?</a>
                 </div>
-                    <div class="">
-                        <div class="error_message"><?php if (!empty($error_message)) { echo "<p style='color: #dc3545'>".$error_message."</p>"; } ?></div>
-                    </div>
+                <div class="">
+                    <div class="error_message"><?php if (!empty($error_message)) { echo "<p style='color: #dc3545'>".$error_message."</p>"; } ?></div>
+                </div>
             </form>
         </div>
     </div>

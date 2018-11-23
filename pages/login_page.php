@@ -65,6 +65,9 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
                     <div class="form-group ">
                         <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
                     </div>
+                    <div class="login-register">
+                        <a href="register_page.php">Nog geen account?</a>
+                    </div>
                     <div class="">
                         <div class="error_message"><?php if (!empty($error_message)) { echo "<p style='color: #dc3545'>".$error_message."</p>"; } ?></div>
                     </div>
