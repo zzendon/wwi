@@ -108,7 +108,7 @@ function getReviews(){
             <ul id="myTab" class="nav nav-tabs nav_tabs">
                 <li><a href="#service-three" data-toggle="tab">REVIEWS OVER WWI</a></li>
             </ul>
-            <form method="POST" action="../php/bedrijf_review_handler.php" onsubmit="alert('Bedankt voor uw review!')">
+            <form method="POST" action="../php/bedrijf_review_handler.php"">
                 <label for="review">Schrijf een korte review over Wide World Importers</label>
                 <textarea class="form-control animated" cols="65" id="review" name="review" placeholder="Type hier u review..." rows="4"></textarea>
                 <!-- Cijfer-->
@@ -148,7 +148,6 @@ function getReviews(){
                 }
                 print ("<br>" . $value['ReviewTekst'] . "<br><hr>");
             }
-
         }
         ?>
         </div>

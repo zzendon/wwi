@@ -3,18 +3,21 @@ include '../php/connectdb.php';
 include '../php/utils.php';
 
 const PRODUCTS_PER_PAGE = 9;
+
 $categorie_id = filter_input(INPUT_GET, 'categorie_id', FILTER_SANITIZE_SPECIAL_CHARS);
-$page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS);
+$page = intval(filter_input(INPUT_GET, 'page',FILTER_SANITIZE_SPECIAL_CHARS));
 $stockitems = getCategoriesStockItemInfo($categorie_id);
 $pages = getPages($stockitems);
 
-if ($page >= getPageCount(count($stockitems)) - 1) {
-    $page = getPageCount(count($stockitems)) - 1;
+// if page is to low stay at lowest page if page is to high stay at highest page.
+if ($page >= count($pages) -1) {
+    $page = count($pages) -2;
 }else if ($page == 0) {
     $page += 1;
 }
 
-
+// Get the number of pages for stockitems.
+// This will always get the page count rounded up.
 function getPageCount($stockItemCount) {
     $remainder = $stockItemCount % PRODUCTS_PER_PAGE > 0 ? 1 : 0;
     $pages_count = ($stockItemCount / PRODUCTS_PER_PAGE) + $remainder;
@@ -22,6 +25,20 @@ function getPageCount($stockItemCount) {
     return  ceil($pages_count);
 }
 
+// This will divide the given stockitems over the different pages.
+// For example you will get the following array back.
+// pages [
+//  page 1 = [
+//      stockitem 1,
+//      stockitem 2,
+//      stockitem 3,
+// ]
+//  page 2 = [
+//      stockitem 4,
+//      stockitem 5,
+//      stockitem 6,
+// ]
+//]
 function getPages($stockitems) {
     $pages = array();
 
@@ -38,14 +55,13 @@ function getPages($stockitems) {
 }
 
 /// Get basic stock item information.
-function getCategoriesStockItemInfo($categorie_id) {
+function getCategoriesStockItemInfo($category_id) {
     $connection = getConnection();
 
-    $pro = $connection->prepare(
-        "SELECT s.StockItem" . "Id, s.StockItemName, s.RecommendedRetailPrice, r.Stars FROM stockitems s 
+    $pro = $connection->prepare("SELECT s.StockItemId, s.StockItemName, s.RecommendedRetailPrice, AVG(r.Stars) FROM stockitems s 
            JOIN stockitemstockgroups sg ON s.StockItemID = sg.StockItemId
            LEFT JOIN review r ON r.StockItemID = s.StockItemID
-           WHERE sg.StockGroupID=". $categorie_id);
+           WHERE sg.StockGroupID='$category_id' GROUP BY s.StockItemID");
 
     $pro->execute();
 
@@ -54,7 +70,7 @@ function getCategoriesStockItemInfo($categorie_id) {
         $id = $row["StockItemId"];
         $product_name = $row["StockItemName"];
         $product_price = $row["RecommendedRetailPrice"];
-        $stars = $row["Stars"];
+        $stars = $row["AVG(r.Stars)"];
 
         $product_name = remove_color_from_stockitem($product_name);
 
@@ -103,13 +119,15 @@ function getCategoriesStockItemInfo($categorie_id) {
         <span class="sr-only">Next</span>
     </a>
 </div>
+
+<!-- pagination --->
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        <li class="page-item">
+            <a class="page-link" onclick="previousProductPage(<?php echo $categorie_id ?>, <?php echo $page ?>)">Previous</a>
         </li>
         <?php
-            for ($i = 0; $i < count($pages); $i++ ) {
+            for ($i = 0; $i < count($pages) -1; $i++ ) {
                 echo " <li class=\"page-item\"><a class=\"page-link\" href=\"index.html.php?categorie_id=$categorie_id&page=$i\">". ($i + 1) ."</a></li>";
             }
         ?>
@@ -118,14 +136,16 @@ function getCategoriesStockItemInfo($categorie_id) {
         </li>
     </ul>
 </nav>
+
+<!-- stock items --->
 <div class="row">
     <?php
-
     if (array_key_exists($page, $pages)) {
         $items = $pages[$page];
 
         foreach ($items as $key => $value) {
             ?>
+            <!-- stock item --->
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
                     <a href="index.html.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><img class="card-img-top"
@@ -143,14 +163,13 @@ function getCategoriesStockItemInfo($categorie_id) {
                         <small class="text-muted">
                             <?php
                             $stars = $value["Stars"];
-
-                            for ($i = 0; $i < 5; $i++) {
-                                if ($i < $stars) {
-                                    echo "&#9733;";
-                                } else {
-                                    echo "&#9734;";
+                                for ($i = 0; $i < 5; $i++) {
+                                    if ($i < $stars) {
+                                        echo "<i class=\"fa fa-star gold\"></i>";
+                                    }else {
+                                        echo "<i class=\"fa fa-star-o\"></i>"  ;
+                                    }
                                 }
-                            }
                             ?>
                         </small>
                     </div>
@@ -161,4 +180,3 @@ function getCategoriesStockItemInfo($categorie_id) {
     }
     ?>
 </div>
-<!-- /.row -->

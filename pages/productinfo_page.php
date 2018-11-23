@@ -3,7 +3,7 @@ include '../php/connectdb.php';
 include '../php/utils.php';
 include '../php/php_session.php';
 
-//kijkt naar het StockItemID wat je hebt meegegeven aan het product
+// Kijkt naar het StockItemID wat je hebt meegegeven aan het product
 if(isset($_GET['stock_item_id'])){
    $id = preg_replace('#[^0-9]#i', '',$_GET['stock_item_id']);
 }
@@ -21,6 +21,7 @@ $productPrice = $productInfo["RecommendedRetailPrice"];
 $stars = $productInfo["ReviewStarts"];
 $itemsAvailible = getStockItemCountInArchive($id);
 
+/// Get the reviews belonging to this product.
 function getReviews(){
     global $id;
 
@@ -108,9 +109,8 @@ function getStockItemCountInArchive($id)
         return $itemsAvailible;
     }
 }
-
-
 ?>
+<!-- product information --->
 <div class="row" style="margin-top: 100px">
     <div class="col-md-7">
         <div class="product col-md-3 service-image-left">
@@ -121,6 +121,7 @@ function getStockItemCountInArchive($id)
     <div class="col-md-4">
         <div class="product-title"> <?php echo $productNameTrimmed ?></div>
         <div class="product-desc"> <?php echo $fullProductName ?></div>
+        <!-- review stars --->
         <div class="product-rating">
             <?php
                 for ($i = 0; $i < 5; $i++) {
@@ -136,14 +137,13 @@ function getStockItemCountInArchive($id)
         <div class="product-price">&euro; <?php echo $productPrice ?></div>
         <h6 class="title-attr" style="margin-top:15px;" ><small>Kleur</small></h6>
 
-        <!-- --->
+        <!-- available product colors --->
         <?php
         $colorOptions = getAvailableColors();
 
         if(empty($colorOptions)){
 
         } else {
-            // print all color options.
             foreach ($colorOptions as $key => $value) {
                 $color = str_replace(' ', '', strtolower($value["ColorName"]));
                 print ("<div class=\"attr\" style=\"width:25px;background:$color;float:left;\"></div>");
@@ -156,7 +156,6 @@ function getStockItemCountInArchive($id)
         <div class="btn-group cart">
             <form method="POST" action="./php/php_session.php?id=<?php echo $id; ?>">
                 <input type="submit" value="Toevoegen aan de winkelmand" class="btn btn-success">
-                </input>
             </form>
         </div>
     </div>
@@ -165,26 +164,27 @@ function getStockItemCountInArchive($id)
             <ul id="myTab" class="nav nav-tabs nav_tabs">
                 <li><a href="#service-three" data-toggle="tab">REVIEWS</a></li>
             </ul>
-            <form method="POST" action="./php/product_review_handler.php?stock_item_id=<?php echo $productId ?>" onsubmit="alert('Bedankt voor uw review!')">
+            <form method="POST" action="./php/product_review_handler.php?stock_item_id=<?php echo $productId ?>">
                 <label for="review">Schrijf een korte review over <?php print $productNameTrimmed?></label>
                     <textarea class="form-control animated" cols="65" id="review" name="review" placeholder="Type hier u review..." rows="4"></textarea>
-                    <!-- Cijfer-->
+                    <!-- Review starts -->
                     <div class="form-group" id="cijfer">
-                        <label for="Cijfer">Geeft een cijfer aan het product</label>
+                        <label for="Cijfer">Geeft het aantal sterren op</label>
                         <select class="form-control" id="cijfer" name="cijfer" required>
-                            <option value="">Geef een cijfer</option>
+                            <option value="">Geef het aantal sterren op</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
                             <option value="5">5</option>
                         </select>
-                        <div class="invalid-feedback">Example invalid custom select feedback</div>
+                        <div class="invalid-feedback"></div>
                     </div>
                     <!--Submit knop-->
                     <button class="btn btn-success mb-2" type="submit" name="versturen" id="versturen">Versturen</button>
             </form>
         </div>
+        <!-- print product reviews --->
             <?php
             $getReview = getReviews();
 

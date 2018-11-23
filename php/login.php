@@ -17,9 +17,9 @@ function authenticate($email, $password) {
                 header("Location: ../index.html.php");
             }
         }
+    }else {
+        header("Location: ../pages/login_page.php?error_message=Wachtwoord of gebruikersnaam is verkeerd!");
     }
-
-    header("Location: ../pages/login_page.php?error_message=Wachtwoord of gebruikersnaam is verkeerd!");
 }
 
 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);
