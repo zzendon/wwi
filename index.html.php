@@ -15,6 +15,7 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
     $stock_item_id = filter_input(INPUT_GET, 'stock_item_id', FILTER_VALIDATE_INT);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -94,7 +95,7 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
             <div class="col-lg-9" w3-include-html="./pages/productinfo_page.php?stock_item_id=<?php echo $stock_item_id ?>"></div>
         <?php } else { ?>
             <!-- Product overview page -->
-            <div class="col-lg-9" w3-include-html="./pages/productlist_page.php?categorie_id=<?php echo intval($categorie_id) ?>"></div>
+            <div class="col-lg-9" w3-include-html="./pages/productlist_page.php?categorie_id=<?php if (!empty($categorie_id)) { echo intval($categorie_id); } ?>&page=<?php if (!empty($page)) { echo intval($page); } ?>"></div>
         <?php } ?>
 
     </div>
