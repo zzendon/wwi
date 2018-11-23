@@ -8,7 +8,6 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
 ?>
 
 <!------ Include the above in your HEAD tag ---------->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +27,7 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <title>Admin</title>
 </head>
 <body>
@@ -41,6 +40,8 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
             </div>
         </div>
         <div class="main-login main-center">
+            <a href="../index.html.php"><i class="fas fa-arrow-circle-left"> Terug naar webshop</i></a>
+
             <form class="form-horizontal" method="post" action="../php/register.php">
                 <div class="form-group">
                     <label for="email" class="cols-sm-2 control-label">Uw Email</label>

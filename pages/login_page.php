@@ -28,8 +28,9 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-
-    <title>Admin</title>
+    <link href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <title>Login</title>
 </head>
 <body>
 <div class="container">
@@ -41,8 +42,8 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
             </div>
         </div>
         <div class="main-login main-center">
-            <div class="back-button">
-                <a href="../index.html.php">Terug naar webshop</a>
+            <div class="">
+                <a href="../index.html.php"><i class="fas fa-arrow-circle-left"> Terug naar webshop</i></a>
             </div>
             <form class="form-horizontal" method="post" action="../php/login.php">
 
