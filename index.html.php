@@ -27,6 +27,7 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
     <meta name="author" content="">
 
     <title>Wide World Importers</title>
+    <link rel="shortcut icon" href="./images/title.png" />
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
