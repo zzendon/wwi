@@ -18,14 +18,14 @@
             <div class="row" style="margin-top:40px;">
                 <div class="col-md-6">
                     <div class="well well-sm">
-<!--Review box--> 
+                        <!--Review box-->
                             <h1>Review</h1>                      
                         <div class="row" id="review-box">
                             <div class="col-md-12">
                                 <form action="review_pagina.php" method="get" onsubmit="alert('Bedankt voor uw review!')">
                                 <label for="review">Schrijf een korte review over ....</table>
                                 <textarea class="form-control animated" cols="65" id="Review" name="Review" placeholder="Type hier u review..." rows="4"></textarea>
-<!-- Cijfer-->              
+                                    <!-- Sterren -->
                                     <div class="form-group" id="cijfer">
                                         <label for="Cijfer">Geeft een cijfer aan het product</label>
                                         <select class="form-control" id="Cijfer" name="Cijfer" required>
@@ -38,7 +38,7 @@
                                         </select>
                                         <div class="invalid-feedback">Example invalid custom select feedback</div>
                                     </div>
-<!--Submit knop-->  
+                                        <!--Submit knop-->
                                         <button class="btn btn-success mb-2" type="submit" name="Versturen">Versturen</button>
                                         <?php
                                             $review_tekst = filter_input(INPUT_GET, "Review");

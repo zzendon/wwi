@@ -50,7 +50,7 @@
                                 <div class="col-4 col-sm-4 col-md-4">
                                     <div class="quantity">
                                         <form method="POST" action="../php/php_session.php?add_id=<?php echo $index; ?>&amount=<?php echo $value+1; ?>">
-                                            <button type="submit" class="btn btn-outline-danger btn-xs" style="width:35px">+</button>
+                                            <button type="submit" class="btn btn-outline-success btn-xs" style="width:35px">+</button>
                                         </form>
                                         <form><h6><strong>Aantal: </strong><?php echo $value; ?></h6></form>
                                         <form method="POST" action="../php/php_session.php?add_id=<?php echo $index; ?>&amount=<?php echo $value-1; ?>">
@@ -106,4 +106,4 @@
             ?>
         </form>
     </div>
-</div>  
+</div>

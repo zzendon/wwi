@@ -3,6 +3,10 @@ include '../php/connectdb.php';
 include '../php/utils.php';
 
 const PRODUCTS_PER_PAGE = 9;
+$search = "";
+if(isset($_GET['search']) && !empty($_GET['search'])){
+    $search = urldecode(filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING));
+}
 
 $categorie_id = filter_input(INPUT_GET, 'categorie_id', FILTER_SANITIZE_SPECIAL_CHARS);
 $page = intval(filter_input(INPUT_GET, 'page',FILTER_SANITIZE_SPECIAL_CHARS));
@@ -60,12 +64,17 @@ function getPages($stockitems) {
 
 /// Get basic stock item information.
 function getCategoriesStockItemInfo($category_id) {
+    global $search;
+
     $connection = getConnection();
 
-    $pro = $connection->prepare("SELECT s.StockItemId, s.StockItemName, s.RecommendedRetailPrice, AVG(r.Stars) FROM stockitems s 
+    $sql = "SELECT s.StockItemId, s.StockItemName, s.RecommendedRetailPrice, AVG(r.Stars) FROM stockitems s 
            JOIN stockitemstockgroups sg ON s.StockItemID = sg.StockItemId
            LEFT JOIN review r ON r.StockItemID = s.StockItemID
-           WHERE sg.StockGroupID='$category_id' GROUP BY s.StockItemID");
+           WHERE sg.StockGroupID='$category_id' AND s.StockItemName LIKE '%$search%'
+           GROUP BY s.StockItemID";
+
+    $pro = $connection->prepare($sql);
 
     $pro->execute();
 

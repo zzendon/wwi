@@ -2,6 +2,7 @@
 include("./php/connectdb.php");
     
 $categorie_id = 1;
+$search = "";
 
 if(isset($_GET['categorie_id']) && !empty($_GET['categorie_id'])){
     $categorie_id = filter_input(INPUT_GET, 'categorie_id', FILTER_VALIDATE_INT);
@@ -13,6 +14,10 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 
 if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
     $stock_item_id = filter_input(INPUT_GET, 'stock_item_id', FILTER_VALIDATE_INT);
+}
+
+if(isset($_POST['search']) && !empty($_POST['search'])){
+    $search = filter_input(INPUT_POST, 'search');
 }
 ?>
 
@@ -62,6 +67,9 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <form method="post" action="index.html.php?categorie_id=<?php if (!empty($categorie_id)) { echo intval($categorie_id); } ?>">
+            <input id="search" name="search" type="text" placeholder="Search" />
+        </form>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
@@ -97,7 +105,8 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
             <div class="col-lg-9" w3-include-html="./pages/productinfo_page.php?stock_item_id=<?php echo $stock_item_id ?>"></div>
         <?php } else { ?>
             <!-- Product overview page -->
-            <div class="col-lg-9" w3-include-html="./pages/productlist_page.php?categorie_id=<?php if (!empty($categorie_id)) { echo intval($categorie_id); } ?>&page=<?php if (!empty($page)) { echo intval($page); } ?>"></div>
+            <div class="col-lg-9" w3-include-html="./pages/productlist_page.php?categorie_id=<?php if (!empty($categorie_id)) { echo intval($categorie_id); } ?>&page=<?php if (!empty($page)) { echo intval($page); } ?>&search=<?php  if (!empty($search)) { echo $search; } ?>">
+            </div>
         <?php } ?>
 
     </div>
@@ -133,8 +142,12 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
 </body>
 
 <script>
-
     includeHTML();
+
+    // Handles click in search bar.
+    $('#filtersubmit').click(function() {
+        alert('Searching for '+$('#filter').val());
+    });
 
     /// This will load all the pages located in other files. All elements with attribute 'w3-include-html' will be checked.
     function includeHTML() {
@@ -160,15 +173,13 @@ if(isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])){
                         elmnt.removeAttribute("w3-include-html");
                         includeHTML();
                     }
-                }
+                };
                 xhttp.open("GET", file, true);
                 xhttp.send();
                 /*exit the function:*/
                 return;
             }
         }
-
-
     }
 </script>
 </html>
