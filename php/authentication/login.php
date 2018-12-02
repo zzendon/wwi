@@ -1,8 +1,10 @@
 <?php
-include 'connectdb.php';
-include 'utils.php';
+include '../connectdb.php';
+include '../utils.php';
 
-function authenticate($email, $password) {
+/// Try to authenticate the user with the given email and password.
+function authenticate($email, $password)
+{
     $connection = getConnection();
     $query = $connection->prepare("SELECT Id, Password FROM login where Email ='$email'");
     $query->execute();
@@ -14,11 +16,11 @@ function authenticate($email, $password) {
             $hashed_password = $row["Password"];
 
             if (password_verify($password, $hashed_password)) {
-                header("Location: ../index.html.php");
+                header("Location: ../../index.html.php");
             }
         }
-    }else {
-        header("Location: ../pages/login_page.php?error_message=Wachtwoord of gebruikersnaam is verkeerd!");
+    } else {
+        header("Location: ../../pages/login_page.php?error_message=Wachtwoord of gebruikersnaam is verkeerd!");
     }
 }
 

@@ -1,14 +1,10 @@
 <?php
-//kijkt naar het StockItemID wat je hebt meegegeven aan het product
-if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
-
-} else {
+// checks if error message is included into get request.
+if (filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
     $error_message = $_GET['error_message'];
 }
+
 ?>
-
-<!------ Include the above in your HEAD tag ---------->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,10 +24,12 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-    <link href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'
+          type='text/css'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <title>Login</title>
-    <link rel="shortcut icon" href="../images/title.png" />
+    <link rel="shortcut icon" href="../images/title.png"/>
 </head>
 <body>
 <div class="container">
@@ -39,50 +37,49 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
         <div class="panel-heading">
             <div class="panel-title text-center">
                 <h1 class="title">Wide World Importers</h1>
-                <hr />
+                <hr/>
             </div>
         </div>
         <div class="main-login main-center">
             <div class="">
                 <a href="../index.html.php"><i class="fas fa-arrow-circle-left"> Terug naar webshop</i></a>
             </div>
-            <form class="form-horizontal" method="post" action="../php/login.php">
 
-
+            <form class="form-horizontal" method="post" action="../php/authentication/login.php">
                 <div class="form-group">
                     <label for="email" class="cols-sm-2 control-label">Email</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                            <input type="email"  class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+                            <input type="email" class="form-control" name="email" id="email"
+                                   placeholder="Enter your Email"/>
                         </div>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="password" class="cols-sm-2 control-label">Wachtwoord</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+                            <input type="password" class="form-control" name="password" id="password"
+                                   placeholder="Enter your Password"/>
                         </div>
                     </div>
                 </div>
-
-                    <div class="form-group ">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
-                    </div>
-                    <div class="login-register">
-                        <a href="register_page.php">Nog geen account?</a>
-                    </div>
-                    <div class="">
-                        <div class="error_message"><?php if (!empty($error_message)) { echo "<p style='color: #dc3545'>".$error_message."</p>"; } ?></div>
-                    </div>
+                <div class="form-group ">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
+                </div>
+                <div class="login-register">
+                    <a href="register_page.php">Nog geen account?</a>
+                </div>
+                <div class="">
+                    <div class="error_message"><?php if (!empty($error_message)) {
+                            echo "<p style='color: #dc3545'>" . $error_message . "</p>";
+                        } ?></div>
+                </div>
             </form>
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="assets/js/bootstrap.js"></script>
 </body>
 </html>

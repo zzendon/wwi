@@ -1,20 +1,21 @@
 <?php
 // this file makes use of mollie-php-client, a php library for interaction between the application and mollie
-include 'C:\xampp\htdocs\wwi\mollie-api-php\src\MollieApiClient.php';
-
-const TEST_KEY = "TEST_SLEUTEL";
-const BASE_REQUEST_URL = "https://api.mollie.com/v2/";
+include './../../mollie-api-php/src/MollieApiClient.php';
+include "config.php";
 
 // Make a new MollieApiClient object and set the API key.
 /**
  * Returns the client object if everything goes well, otherwise it'll return null.
-* @return \Mollie\Api\MollieApiClient|null
-*/
+ * @return \Mollie\Api\MollieApiClient|null
+ */
 function getClient()
 {
+
     try {
+        $config = new Config();
+
         $client = new \Mollie\Api\MollieApiClient();
-        $client->setApiKey(TEST_KEY);
+        $client->setApiKey($config->mollie_api());
         return $client;
     } catch (\Mollie\Api\Exceptions\IncompatiblePlatform | \Mollie\Api\Exceptions\ApiException $e) {
 
@@ -56,6 +57,7 @@ function isTransactionPaid($id)
 {
     return (boolean)getClient()->payments->get($id)->isPaid();
 }
+
 /**
  * @return \Mollie\Api\Resources\Method
  *

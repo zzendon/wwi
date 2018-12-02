@@ -1,13 +1,12 @@
 <?php
 include '../php/connectdb.php';
 include '../php/utils.php';
-include '../php/php_session.php';
+include '../php/shopping_cart/php_session.php';
 
 // Kijkt naar het StockItemID wat je hebt meegegeven aan het product
-if(isset($_GET['stock_item_id'])){
-   $id = preg_replace('#[^0-9]#i', '',$_GET['stock_item_id']);
-}
-else {
+if (isset($_GET['stock_item_id'])) {
+    $id = preg_replace('#[^0-9]#i', '', $_GET['stock_item_id']);
+} else {
     echo "no such product exist";
     exit();
 }
@@ -22,7 +21,8 @@ $stars = $productInfo["ReviewStarts"];
 $itemsAvailible = getStockItemCountInArchive($id);
 
 /// Get the reviews belonging to this product.
-function getReviews(){
+function getReviews()
+{
     global $id;
 
     $connection = getConnection();
@@ -47,7 +47,8 @@ function getReviews(){
 }
 
 /// Get basic information from stockitem by stockitem id.
-function getProductInformation() {
+function getProductInformation()
+{
     global $id;
 
     $connection = getConnection();
@@ -72,7 +73,8 @@ function getProductInformation() {
 }
 
 /// Get available colors by product name.
-function getAvailableColors() {
+function getAvailableColors()
+{
     global $productNameTrimmed;
 
     $connection = getConnection();
@@ -108,57 +110,65 @@ function getStockItemCountInArchive($id)
 
         return $itemsAvailible;
     }
+
+    return 0;
 }
+
 ?>
+
 <!-- product information --->
 <div class="row" style="margin-top: 100px">
-    <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="carousel-item active">
-            <img class="d-block img-fluid" src="./images/test2.jpg" alt="Second slide">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block img-fluid" src="./images/test1.jpg" alt="Second slide">
+    <div class="col-md-3" w3-include-html="./pages/category_page.php"></div>
+    <div class="col-md-4">
+        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                    <img class="d-block img-fluid" src="./images/test2.jpg" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block img-fluid" src="./images/test1.jpg" alt="Second slide">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-    </div>
-
     <div class="col-md-4">
         <div class="product-title"> <?php echo $productNameTrimmed ?></div>
         <div class="product-desc"> <?php echo $fullProductName ?></div>
         <!-- review stars --->
         <div class="product-rating">
             <?php
-                for ($i = 0; $i < 5; $i++) {
-                    if ($i < $stars) {
-                        echo "<i class=\"fa fa-star gold\"></i>";
-                    }else {
-                        echo "<i class=\"fa fa-star-o\"></i>"  ;
-                    }
+            for ($i = 0; $i < 5; $i++) {
+                if ($i < $stars) {
+                    echo "<i class=\"fa fa-star gold\"></i>";
+                } else {
+                    echo "<i class=\"fa fa-star-o\"></i>";
                 }
+            }
             ?>
         </div>
         <hr>
         <div class="product-price">&euro; <?php echo $productPrice ?></div>
-        <h6 class="title-attr" style="margin-top:15px;" ><small>Kleur</small></h6>
+        <h6 class="title-attr" style="margin-top:15px;">
+            <small>Kleur</small>
+        </h6>
 
         <!-- available product colors --->
         <?php
         $colorOptions = getAvailableColors();
 
-        if(empty($colorOptions)){
+        if (empty($colorOptions)) {
 
         } else {
             foreach ($colorOptions as $key => $value) {
@@ -171,7 +181,7 @@ function getStockItemCountInArchive($id)
         <div class="product-stock">Beschikbaar: <?php echo $itemsAvailible ?> </div>
         <hr>
         <div class="btn-group cart">
-            <form method="POST" action="./php/php_session.php?id=<?php echo $id; ?>">
+            <form method="POST" action="./php/shopping_cart/php_session.php?id=<?php echo $id; ?>">
                 <input type="submit" value="Toevoegen aan de winkelmand" class="btn btn-success">
             </form>
         </div>
@@ -181,51 +191,52 @@ function getStockItemCountInArchive($id)
             <ul id="myTab" class="nav nav-tabs nav_tabs">
                 <li><a href="#service-three" data-toggle="tab">REVIEWS</a></li>
             </ul>
-            <form method="POST" action="./php/product_review_handler.php?stock_item_id=<?php echo $productId ?>">
-                <label for="review">Schrijf een korte review over <?php print $productNameTrimmed?></label>
-                    <textarea class="form-control animated" cols="65" id="review" name="review" placeholder="Type hier u review..." rows="4"></textarea>
-                    <!-- Review starts -->
-                    <div class="form-group" id="cijfer">
-                        <label></label>
-                        <select class="form-control" id="cijfer" name="cijfer" required>
-                            <option value="">Geef het aantal sterren op</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <!--Submit knop-->
-                    <button class="btn btn-success mb-2" type="submit" name="versturen" id="versturen">Versturen</button>
+            <form method="POST" action="./php/reviews/product_review_handler.php?stock_item_id=<?php echo $productId ?>">
+                <label for="review">Schrijf een korte review over <?php print $productNameTrimmed ?></label>
+                <textarea class="form-control animated" cols="65" id="review" name="review"
+                          placeholder="Type hier u review..." rows="4"></textarea>
+                <!-- Review starts -->
+                <div class="form-group" id="cijfer">
+                    <label></label>
+                    <select class="form-control" id="cijfer" name="cijfer" required>
+                        <option value="">Geef het aantal sterren op</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <!--Submit knop-->
+                <button class="btn btn-success mb-2" type="submit" name="versturen" id="versturen">Versturen</button>
             </form>
         </div>
         <!-- print product reviews --->
-            <?php
-            $getReview = getReviews();
+        <?php
+        $getReview = getReviews();
 
-                    if (empty($getReview)) {
-                            print("Geen reviews voor dit product");
-                        } else {
-                        foreach ($getReview as $key => $value) {
-                            $stars = $value['ReviewStars'];
-                            for ($i = 0; $i < 5; $i++) {
-                                if ($i < $stars) {
-                                    echo "<i class=\"fa fa-star gold\"></i>";
-                                } else {
-                                    echo "<i class=\"fa fa-star-o\"></i>";
-                                }
-
-
-                            }
-                            print ("<br>" . $value['ReviewTekst'] . "<br><hr>");
-                        }
-
+        if (empty($getReview)) {
+            print("Geen reviews voor dit product");
+        } else {
+            foreach ($getReview as $key => $value) {
+                $stars = $value['ReviewStars'];
+                for ($i = 0; $i < 5; $i++) {
+                    if ($i < $stars) {
+                        echo "<i class=\"fa fa-star gold\"></i>";
+                    } else {
+                        echo "<i class=\"fa fa-star-o\"></i>";
                     }
-             ?>
-            </div>
-            <hr>
-        </div>
+
+
+                }
+                print ("<br>" . $value['ReviewTekst'] . "<br><hr>");
+            }
+
+        }
+        ?>
     </div>
+    <hr>
+</div>
+</div>
 </div>

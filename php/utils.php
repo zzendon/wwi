@@ -1,12 +1,13 @@
 <?php
 
 /// this filters an multidimensional array by removing duplicates.
-function unique_multidim_array($array, $key) {
+function unique_multidim_array($array, $key)
+{
     $temp_array = array();
     $i = 0;
     $key_array = array();
 
-    foreach($array as $val) {
+    foreach ($array as $val) {
         if (!in_array($val[$key], $key_array)) {
             $key_array[$i] = $val[$key];
             $temp_array[$i] = $val;
@@ -23,7 +24,8 @@ function remove_color_from_stockitem($stock_item_name)
 }
 
 /// Checks if user exists in database.
-function doesUserExists($email) {
+function doesUserExists($email)
+{
     $connection = getConnection();
     $query = $connection->prepare("SELECT Id FROM login where Email ='$email'");
     $query->execute();

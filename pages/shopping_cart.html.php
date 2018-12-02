@@ -1,72 +1,57 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<title>Wide World Importers</title>
-<link rel="shortcut icon" href="../images/title.png" />
-<!------ Include the above in your HEAD tag ---------->
+<?php
+// include sql connect en php session file
+include '../php/connectdb.php';
+include '../php/shopping_cart/php_session.php';
 
+$conn = getConnection();
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="../index.html.php"><img class="img-responsive" width="195" height="71" src="../images/logo.png"/></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="../index.html.php">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Account</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="register_page.php">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="overons_page.html.php">Over ons</a>
-                </li>
-            </ul>
-        </div>
-        <a class="navbar-brand" href="shopping_cart.html.php"><img class="img-responsive" width="44" height="35" src="../images/shopping_cart_active.png"/></a>
-    </div>
-</nav>
+// Shopping vars
+$total_cost = 0;
+$total_cost_btw = 0;
+$send_cost = 3.50;
+$send_cost_threshold = 20.00;
+?>
 
-<!-- Body -->
-<script src="https://use.fontawesome.com/c560c025cf.js"></script>
-<div class="container" style="padding-top:8%">
-   <div class="card shopping-cart">
-        <div class="card-header bg-dark text-light">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            Shopping cart
-            <div class="clearfix"></div>
-        </div>
-        <div class="card-body">
-            <!-- PRODUCT AND COST-->
-            <?php include '../php/shopping_cart.php'; ?>
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Wide World Importers</title>
+
+    <link rel="import" href="../includes/imports.html">
+</head>
+
+<body>
+
+<div w3-include-html="../includes/nav_bar.html.php"></div>
+
+<div style="margin-top: 50px" class="container">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card shopping-cart">
+                <div class="card-header bg-dark text-light">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    Shopping cart
+                    <div class="clearfix"></div>
+                </div>
+                <div class="card-body">
+                    <!-- PRODUCT AND COST-->
+                    <?php include '../php/shopping_cart/shopping_cart.php'; ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Footer -->
-<footer class="py-5 bg-dark">
-    <div class="container">
-        <div class="row">
-        <div class="col-sm text-white">
-                <br><b>Contactgegevens:</b><br/>
-                Wide World Importers, <br/>
-                Campus 2, 8017 CA Zwolle<br/>
-                Telefoon: +852 129 209 291<br/>
-                Mail: <a href="mailto:info@wwi.com">info@wwi.com</a><br />
-        </div>
-            <div class="col-sm text-white">
-                <br><b>Social Media:</b><br/>
-                <a href="https://www.facebook.com/"><i id="social-fb" class="fa fa-facebook-square fa-3x social"></i></a>
-                <a href="https://twitter.com/"><i id="social-tw" class="fa fa-twitter-square fa-3x social"></i></a>
-                <a href="https://instagram.com"><i id="social-in" class="fa fa-instagram fa-3x social" ></i></a>                    
-                <a href="mailto:info@wwi.com"><i id="social-em" class="fa fa-envelope-square fa-3x social"></i></a>
-           </div>
-        </div>
-    </div>
-</footer>
+<div style="margin-top: 10%" w3-include-html="../includes/footer.html"></div>
+
+<script>
+    includeHTML();
+</script>
+</body>
+</html>

@@ -27,9 +27,10 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <title>Registreer</title>
-    <link rel="shortcut icon" href="../images/title.png" />
+    <link rel="shortcut icon" href="../images/title.png"/>
 </head>
 <body>
 <div class="container">
@@ -37,19 +38,20 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
         <div class="panel-heading">
             <div class="panel-title text-center">
                 <h1 class="title">Wide World Importers</h1>
-                <hr />
+                <hr/>
             </div>
         </div>
         <div class="main-login main-center">
             <a href="../index.html.php"><i class="fas fa-arrow-circle-left"> Terug naar webshop</i></a>
 
-            <form class="form-horizontal" method="post" action="../php/register.php">
+            <form class="form-horizontal" method="post" action="../php/authentication/register.php">
                 <div class="form-group">
                     <label for="email" class="cols-sm-2 control-label">Uw Email</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                            <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+                            <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control"
+                                   name="email" id="email" placeholder="Enter your Email"/>
                         </div>
                     </div>
                 </div>
@@ -59,7 +61,10 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+                            <input type="password"
+                                   pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                                   class="form-control" name="password" id="password"
+                                   placeholder="Enter your Password"/>
                         </div>
                     </div>
                 </div>
@@ -69,19 +74,24 @@ if (!filter_input(INPUT_GET, "error_message", FILTER_SANITIZE_STRING)) {
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+                            <input type="password"
+                                   pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                                   class="form-control" name="confirm" id="confirm"
+                                   placeholder="Confirm your Password"/>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group ">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Registreer</button>
-                </div>
-                <div class="login-register">
-                    <a href="login_page.php">Al een account?</a>
-                </div>
-                <div class="">
-                    <div class="error_message"><?php if (!empty($error_message)) { echo "<p style='color: #dc3545'>".$error_message."</p>"; } ?></div>
-                </div>
+                    <div class="form-group ">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Registreer</button>
+                    </div>
+                    <div class="login-register">
+                        <a href="login_page.php">Al een account?</a>
+                    </div>
+                    <div class="">
+                        <div class="error_message"><?php if (!empty($error_message)) {
+                                echo "<p style='color: #dc3545'>" . $error_message . "</p>";
+                            } ?></div>
+                    </div>
             </form>
         </div>
     </div>
