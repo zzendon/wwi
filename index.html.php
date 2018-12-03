@@ -53,9 +53,10 @@ if (isset($_POST['search']) && !empty($_POST['search'])) {
     <div class="container">
         <a class="navbar-brand" href="./index.html.php"><img class="img-responsive" width="195" height="71"
                                                               src="./images/logo.png"/></a>
-        <form style="padding-top: 10px;" method="post" action="./index.html.php?categorie_id=<?php if (!empty($categorie_id)) {
-            echo intval($categorie_id);
-        } ?>">
+        <form style="padding-top: 10px;" method="post" action="./index.html.php?<?php
+            if (!empty($categorie_id)) { echo "categorie_id=" . intval($categorie_id); }
+            if (!empty($search)) { echo ("&search=" . $search); }
+        ?>">
             <div class="input-group mb-6">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1"> <i  class="fa fa-search fa-9"></i></span>

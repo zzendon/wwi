@@ -1,7 +1,6 @@
 <?php
 // include sql connect en php session file
-include '../php/connectdb.php';
-include 'php_session.php';
+//include './../connectdb.php';
 
 $conn = getConnection();
 
