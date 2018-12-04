@@ -12,7 +12,7 @@ function authenticate($email, $password)
     if ($query->rowCount()) {
         while ($row = $query->fetch()) {
             session_start();
-            $_SESSION['gebuikers_id'] = $row['Id'];
+            $_SESSION['gebruikers_id'] = $row['Id'];
             $hashed_password = $row["Password"];
 
             if (password_verify($password, $hashed_password)) {

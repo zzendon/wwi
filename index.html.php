@@ -18,6 +18,7 @@ if (isset($_GET['stock_item_id']) && !empty($_GET['stock_item_id'])) {
 
 if (isset($_POST['search']) && !empty($_POST['search'])) {
     $search = filter_input(INPUT_POST, 'search');
+    print ("post search" . $search);
 }
 ?>
 
@@ -61,7 +62,7 @@ if (isset($_POST['search']) && !empty($_POST['search'])) {
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1"> <i  class="fa fa-search fa-9"></i></span>
                 </div>
-                <input type="text" class="form-control" placeholder="Search">
+                <input id="search" name="search" type="text" class="form-control" placeholder="Search">
             </div>
         </form>
         <div class="collapse navbar-collapse" id="navbarResponsive">

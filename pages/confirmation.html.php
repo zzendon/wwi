@@ -1,5 +1,5 @@
 <?php
-include '../php/sho php_session.php';
+include '../php/shopping_cart/php_session.php';
 include '../php/connectdb.php';
 
 $connection = getConnection();

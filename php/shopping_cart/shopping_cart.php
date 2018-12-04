@@ -104,7 +104,8 @@ $send_cost_threshold = 20.00;
         Verzendkosten: <b> &#8364; <?php echo number_format($send_cost, 2); ?></b> <br>
         <br> Totaal: <b> &#8364; <?php echo number_format($total_cost, 2); ?></b>
         <form method="POST"
-              action="../../mollie-api-php/examples/payments/create-payment.php?cost=<?php echo number_format($total_cost, 2); ?>">
+              action="../pages/order_page.php?cost=<?php echo number_format($total_cost, 2); ?>">
+<!--              action="../mollie-api-php/examples/payments/create-payment.php?cost=--><?php //echo number_format($total_cost, 2); ?><!--">-->
             <?php
             if ($total_cost > 0) {
                 echo '<button type="submit" class="card-header bg-dark text-light">Betalen</button>';

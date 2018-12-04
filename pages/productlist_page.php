@@ -5,8 +5,9 @@ include '../php/utils.php';
 const PRODUCTS_PER_PAGE = 9;
 
 $search = "";
-if (isset($_POST['search']) && !empty($_POST['search'])) {
-    $search = urldecode(filter_input(INPUT_POST, 'search', FILTER_SANITIZE_STRING));
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $search = urldecode(filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING));
+    print "searching get" . $search;
 }
 
 $categorie_id = filter_input(INPUT_GET, 'categorie_id', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -182,7 +183,7 @@ function getCategoriesStockItemInfo($category_id)
                     ?>
                     <!-- stock item --->
                     <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
+                        <div class="card h-30">
                             <a href="index.html.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><img
                                         class="card-img-top"
                                         src="http://placehold.it/700x400"
