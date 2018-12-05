@@ -61,7 +61,7 @@ function getReviews()
                         </ol>
                         <div class="carousel-inner" role="listbox">
                             <div class="carousel-item active">
-                                <img class="d-block img-fluid" src="../images/Kim_Helmink.png" alt="Second slide">
+                                <img class="d-block img-fluid" src="../images/Naamloos.jpg" alt="Second slide">
                             </div>
                             <div class="carousel-item">
                                 <img class="d-block img-fluid" src="../images/pand.png" alt="Second slide">
