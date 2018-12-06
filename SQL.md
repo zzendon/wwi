@@ -128,3 +128,9 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 ```
+
+## Uniqe key
+De volgende key wordt weggehaald zodat er meerdere customers de zelfde naam kunnen hebben.
+```
+ALTER TABLE ``customers`` DROP INDEX ``UQ_Sales_Customers_CustomerName``;
+```

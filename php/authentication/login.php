@@ -6,20 +6,24 @@ include '../utils.php';
 function authenticate($email, $password)
 {
     $connection = getConnection();
-    $query = $connection->prepare("SELECT Id, Password FROM login where Email ='$email'");
+    $query = $connection->prepare("SELECT PersonId, cast(HashedPassword as char) as Password FROM people where EmailAddress ='$email'");
     $query->execute();
 
     if ($query->rowCount()) {
         while ($row = $query->fetch()) {
             session_start();
-            $_SESSION['gebruikers_id'] = $row['Id'];
+            $_SESSION['gebruikers_id'] = $row['PersonId'];
             $hashed_password = $row["Password"];
 
             if (password_verify($password, $hashed_password)) {
                 header("Location: ../../index.html.php");
             }
+            else {
+                header("Location: ../../pages/login_page.php?error_message=Wachtwoord of gebruikersnaam is verkeerd!");
+            }
         }
-    } else {
+    }
+    else {
         header("Location: ../../pages/login_page.php?error_message=Wachtwoord of gebruikersnaam is verkeerd!");
     }
 }

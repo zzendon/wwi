@@ -30,4 +30,3 @@ if (isset($_GET['add_id']) && isset($_GET['amount'])) {
     }
     header("Location: ../../pages/shopping_cart.html.php");
 }
-?>

@@ -1,7 +1,8 @@
 <?php
 
 namespace _PhpScoper5be2fdb7243e7;
-$cost = $cost = $_GET['cost'];
+$cost = urldecode(filter_input(INPUT_GET, 'cost', FILTER_SANITIZE_STRING));
+$customer_id = urldecode(filter_input(INPUT_GET, 'customer_id', FILTER_SANITIZE_STRING));
 
 /*
  * How to prepare a new payment with the Mollie API.
@@ -37,7 +38,7 @@ try {
                     "value" => "$cost"], 
                 "method" => \Mollie\Api\Types\PaymentMethod::IDEAL,
                 "description" => "Order #{$orderId}", 
-                "redirectUrl" => "{$protocol}://{$hostname}/wwi/pages/confirmation.html.php", 
+                "redirectUrl" => "{$protocol}://{$hostname}/wwi/pages/confirmation.html.php?customer_id=$customer_id",
                 "webhookUrl" => "", 
                 "metadata" => ["order_id" => $orderId]]);
     /*

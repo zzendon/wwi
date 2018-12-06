@@ -10,8 +10,9 @@ $confirmedPassword = filter_input(INPUT_POST, "confirm", FILTER_SANITIZE_STRING)
 function createNewUser($email, $password)
 {
     $connection = getConnection();
-
-    $query = $connection->prepare("INSERT INTO login (Email, Password) VALUES ('$email', '$password')");
+    $query = $connection->prepare("
+          INSERT INTO people(`FullName`, `PreferredName`, `SearchName`, `IsPermittedToLogon`, `LogonName`, `IsExternalLogonProvider`, `HashedPassword`, `IsSystemUser`, `IsEmployee`, `IsSalesperson`, `PhoneNumber`, `EmailAddress`, `LastEditedBy`, `ValidFrom`, `ValidTo`) 
+          VALUES (' ', ' ', ' ', 1, '$email', 0, '$password' , 0, 0, 0, 0, '$email', '2016-05-31 23:14:00', '2016-05-31 23:14:00', '9999-12-31 23:59:59')");
     $query->execute();
 
     header("Location: ../../pages/login_page.php");

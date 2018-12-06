@@ -141,8 +141,6 @@ function getReviews()
                             } else {
                                 echo "<i class=\"fa fa-star-o\"></i>";
                             }
-
-
                         }
                         print ("<br>" . $value['ReviewTekst'] . "<br><hr>");
                     }

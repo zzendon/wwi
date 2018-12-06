@@ -7,7 +7,6 @@ const PRODUCTS_PER_PAGE = 9;
 $search = "";
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     $search = urldecode(filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING));
-    print "searching get" . $search;
 }
 
 $categorie_id = filter_input(INPUT_GET, 'categorie_id', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -69,7 +68,6 @@ function getCategoriesStockItemInfo($category_id)
 {
     global $search;
 
-    print "search: ". $search;
     $connection = getConnection();
 
     $sql = "SELECT s.StockItemId, s.StockItemName, s.RecommendedRetailPrice, AVG(r.Stars) FROM stockitems s 

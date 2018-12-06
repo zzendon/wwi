@@ -1,99 +1,192 @@
 <?php
+
 include "../php/connectdb.php";
-require "../libs/pdf-invoice/src/InvoicePrinter.php";
+session_start();
 
-use Konekt\PdfInvoice\InvoicePrinter;
+$costs = 0;
+$customerId = 0;
 
-function getStockItemInformation
+if (isset($_GET['cost']) && !empty($_GET['cost'])) {
+    $costs = urldecode(filter_input(INPUT_GET, 'cost', FILTER_SANITIZE_STRING));
+}
 
-$invoice = new InvoicePrinter();
-
-/// Get basic stock item information.
-function getCategoriesStockItemInfo($category_id)
+function SafeCustomerData()
 {
-    global $search;
+    global $customerId;
 
-    print "search: " . $search;
     $connection = getConnection();
 
-    $sql = "SELECT s.StockItemId, s.StockItemName, s.RecommendedRetailPrice, AVG(r.Stars) FROM stockitems s 
-           JOIN stockitemstockgroups sg ON s.StockItemID = sg.StockItemId
-           LEFT JOIN review r ON r.StockItemID = s.StockItemID
-           WHERE sg.StockGroupID='$category_id' AND s.StockItemName LIKE '%$search%'
-           GROUP BY s.StockItemID";
+    $customerName = "";
+    $customerPhoneNumber = 0;
+    $customerWebsiteURL = "";
+    $customerDeliveryAddressLine1 = "";
+    $customerDeliveryAddressLine2 = "";
+    $deliveryPostalCode = "";
+    $customerEmail = "";
 
-    $pro = $connection->prepare($sql);
+    if (isset($_POST['name']) && !empty($_POST['name'])) {
+        $customerName = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
 
-    $pro->execute();
+    }
+    if (isset($_POST['email']) && !empty($_POST['email'])) {
+        $customerEmail = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
+    }
+    if (isset($_POST['nummber']) && !empty($_POST['nummber'])) {
+        $customerPhoneNumber = filter_input(INPUT_POST, 'nummber', FILTER_SANITIZE_STRING);
 
-    $stockItemsInfo = array();
-    while ($row = $pro->fetch()) {
-        $id = $row["StockItemId"];
-        $product_name = $row["StockItemName"];
-        $product_price = $row["RecommendedRetailPrice"];
-        $stars = $row["AVG(r.Stars)"];
+    }
+    if (isset($_POST['website']) && !empty($_POST['website'])) {
+        $customerWebsiteURL = filter_input(INPUT_POST, 'website', FILTER_SANITIZE_STRING);
 
-        $product_name = remove_color_from_stockitem($product_name);
+    }
+    if (isset($_POST['address1']) && !empty($_POST['address1'])) {
+        $customerDeliveryAddressLine1 = filter_input(INPUT_POST, 'address1', FILTER_SANITIZE_STRING);
 
-        $item = [
-            "StockItemId" => $id,
-            "StockItemName" => $product_name,
-            "RecommendedRetailPrice" => $product_price,
-            "Stars" => $stars,
-        ];
+    }
+    if (isset($_POST['address2']) && !empty($_POST['address2'])) {
+        $customerDeliveryAddressLine2 = filter_input(INPUT_POST, 'address2', FILTER_SANITIZE_STRING);
+    }
+    if (isset($_POST['postcode']) && !empty($_POST['postcode'])) {
+        $deliveryPostalCode = filter_input(INPUT_POST, 'postcode', FILTER_SANITIZE_STRING);
+    }
 
-        $stockItemsInfo[$id] = $item;
+    $sql = "SELECT (MAX(CustomerId) + 1) as NewCustomerId FROM customers";
+    $query = $connection->prepare($sql);
+    $query->execute();
+
+    while ($row = $query->fetch()) {
+        $customerId = $row["NewCustomerId"];
+    }
+
+    if ($customerId != 0) {
+        $sql = "INSERT INTO `customers` (CustomerID,
+          `CustomerName`, `BillToCustomerID`, `CustomerCategoryID`, `BuyingGroupID`, `PrimaryContactPersonID`, 
+          `AlternateContactPersonID`, `DeliveryMethodID`, `DeliveryCityID`, `PostalCityID`, `CreditLimit`, 
+          `AccountOpenedDate`, `StandardDiscountPercentage`, `IsStatementSent`, `IsOnCreditHold`, `PaymentDays`, 
+          `PhoneNumber`, `FaxNumber`, `DeliveryRun`, `RunPosition`, `WebsiteURL`, 
+          `DeliveryAddressLine1`, `DeliveryAddressLine2`, `DeliveryPostalCode`, `DeliveryLocation`, `PostalAddressLine1`, 
+          `PostalAddressLine2`, `PostalPostalCode`, `LastEditedBy`, `ValidFrom`, `ValidTo`) 
+        VALUES ('$customerId',
+           '$customerName', '1', '1', NULL, '1', 
+            NULL, '1', '1', '1', NULL, 
+            '2018-12-05', '0', '0', '0', '0', 
+            '$customerPhoneNumber', '', NULL, NULL, '$customerWebsiteURL', 
+            '$customerDeliveryAddressLine1', '$customerDeliveryAddressLine2', '$deliveryPostalCode', NULL, '',
+             NULL, '0', '0', '2018-12-05 00:00:00', '2018-12-29 00:00:00')";
+
+        $query = $connection->prepare($sql);
+
+        $query->execute();
     }
 }
-//Wide World Importers,
-//Campus 2, 8017 CA Zwolle
-//Telefoon: +852 129 209 291
-//Mail: info@wwi.com
 
-/* Header settings */
-$invoice->setLogo("../images/Kim_Helmink.png");   //logo image path
-$invoice->setColor("#007fff");      // pdf color scheme
-$invoice->setType("WWI Factuur");    // Invoice Type
-$invoice->setReference("INV-55033645");   // Reference
-$invoice->setDate(date('M dS ,Y',time()));   //Billing Date
-$invoice->setTime(date('h:i:s A',time()));   //Billing Time
-$invoice->setDue(date('M dS ,Y',strtotime('+3 months')));    // Due Date
-$invoice->setFrom(array("Wide World Importers","WWI","Campus 2, 8017 CA Zwolle","Zwolle , 8017 CA"));
-$invoice->setTo(array("Purchaser Name","Sample Company Name","128 AA Juanita Ave","Glendora , CA 91740"));
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // check if post is form form.
+    if (isset($_POST['name']) && !empty($_POST['name'])) {
+        SafeCustomerData();
+        header("Location: ../libs/mollie-api-php/examples/payments/create-payment.php?cost=$costs&customer_id=$customerId");
+        exit;
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
 
-$invoice->addItem("AMD Athlon X2DC-7450","2.4GHz/1GB/160GB/SMP-DVD/VB",6,0,580,0,3480);
-$invoice->addItem("PDC-E5300","2.6GHz/1GB/320GB/SMP-DVD/FDD/VB",4,0,645,0,2580);
-$invoice->addItem('LG 18.5" WLCD',"",10,0,230,0,2300);
-$invoice->addItem("HP LaserJet 5200","",1,0,1100,0,1100);
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-$invoice->addTotal("Total",9460);
-$invoice->addTotal("VAT 21%",1986.6);
-$invoice->addTotal("Total due",11446.6,true);
+    <title>Wide World Importers</title>
 
-$invoice->addBadge("Payment Paid");
+    <link rel="import" href="../includes/imports.html">
+</head>
 
-$invoice->addTitle("Important Notice");
-
-$invoice->addParagraph("No item will be replaced or refunded if you don't have the invoice with you.");
-
-$invoice->setFooternote("My Company Name Here");
-
-$invoice->render('example1.pdf','I');
-/* I => Display on browser, D => Force Download, F => local path save, S => return document as string */
-
-//session_start();
-//
-//if(isset($_SESSION['gebruikers_id']) && !empty($_SESSION['gebruikers_id'])) {
-//    $gebruiker_id = $_SESSION["gebruikers_id"];
-//    $connection = getConnection();
-//    $query = $connection->prepare("SELECT l.Email, c. FROM login l where id ='$gebruiker_id' LEFT JOIN customers c ON l.CustomerId = c.CustomerId");
-//    $query->execute();
-//
-//    if ($query->rowCount() != 0) {
-//
-//        while ($row = $query->fetch()) {
-//
-//        }
-//    }
-////    "SELECT * from customers where "
-//}
+<body>
+<div w3-include-html="../includes/nav_bar.html.php?current=order"></div>
+<div class="row" style="margin-top: 120px">
+    <div class="container">
+        <div class="col-md-12" style="margin-bottom: 10%">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Uw gegevens</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="./order_page.php?customer_id=<?php echo $customerId ?>&cost=<?php echo $costs ?>"
+                                  method="post">
+                                <div class="form-group row">
+                                    <label for="name" class="col-4 col-form-label">Voornaam</label>
+                                    <div class="col-8">
+                                        <input id="name" name="name" placeholder="First Name" class="form-control here"
+                                               type="text" required="required">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="email" class="col-4 col-form-label">Email*</label>
+                                    <div class="col-8">
+                                        <input id="email" name="email" placeholder="Email" class="form-control here"
+                                               required="required" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="number" class="col-4 col-form-label">Nummer*</label>
+                                    <div class="col-8">
+                                        <input id="text" name="nummber" placeholder="Nummer" class="form-control here"
+                                              pattern="^[0-9]*$" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="website" class="col-4 col-form-label">Website</label>
+                                    <div class="col-8">
+                                        <input id="website" name="website" placeholder="website"
+                                               class="form-control here" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="address1" class="col-4 col-form-label">Address 1</label>
+                                    <div class="col-8">
+                                        <input id="address1" name="address1" placeholder="Address 1"
+                                               class="form-control here" type="text" required="required">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="address2" class="col-4 col-form-label">Address 2</label>
+                                    <div class="col-8">
+                                        <input id="address2" name="address2" placeholder="Address 2"
+                                               class="form-control here" type="text" required="required">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="address2" class="col-4 col-form-label">Post Code</label>
+                                    <div class="col-8">
+                                        <input id="postcode" name="postcode" placeholder="Postcode"
+                                               class="form-control here" type="text" required="required">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="offset-0 col-8">
+                                        <button name="submit" type="submit" class="btn btn-primary">Sla veranderingen
+                                            op
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="margin-top: 15Ø%" w3-include-html="../includes/footer.html"></div>
+<script>
+    includeHTML();
+</script>
+</body>
+</html>
