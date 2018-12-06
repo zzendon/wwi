@@ -10,9 +10,20 @@ $confirmedPassword = filter_input(INPUT_POST, "confirm", FILTER_SANITIZE_STRING)
 function createNewUser($email, $password)
 {
     $connection = getConnection();
+
+    // get highest order number
+    $insertOrder = "SELECT (MAX(PersonId) + 1) as PersonId FROM people";
+    $query = $connection->prepare($insertOrder);
+    $query->execute();
+
+    $personId = 0;
+    while ($row = $query->fetch()) {
+        $personId = $row["PersonId"];
+    }
+
     $query = $connection->prepare("
-          INSERT INTO people(`FullName`, `PreferredName`, `SearchName`, `IsPermittedToLogon`, `LogonName`, `IsExternalLogonProvider`, `HashedPassword`, `IsSystemUser`, `IsEmployee`, `IsSalesperson`, `PhoneNumber`, `EmailAddress`, `LastEditedBy`, `ValidFrom`, `ValidTo`) 
-          VALUES (' ', ' ', ' ', 1, '$email', 0, '$password' , 0, 0, 0, 0, '$email', '2016-05-31 23:14:00', '2016-05-31 23:14:00', '9999-12-31 23:59:59')");
+          INSERT INTO people(`PersonID`, `FullName`, `PreferredName`, `SearchName`, `IsPermittedToLogon`, `LogonName`, `IsExternalLogonProvider`, `HashedPassword`, `IsSystemUser`, `IsEmployee`, `IsSalesperson`, `PhoneNumber`, `EmailAddress`, `LastEditedBy`, `ValidFrom`, `ValidTo`) 
+          VALUES ('$personId', ' ', ' ', ' ', 1, '$email', 0, '$password' , 0, 0, 0, 0, '$email', '2016-05-31 23:14:00', '2016-05-31 23:14:00', '9999-12-31 23:59:59')");
     $query->execute();
 
     header("Location: ../../pages/login_page.php");

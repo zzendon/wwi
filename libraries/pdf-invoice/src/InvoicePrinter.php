@@ -12,7 +12,9 @@
 namespace Konekt\PdfInvoice;
 
 use FPDF;
+
 require ("../libraries/fpdf/fpdf.php");
+
 
 class InvoicePrinter extends FPDF
 {

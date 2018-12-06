@@ -75,7 +75,6 @@ function SafeCustomerData()
              NULL, '0', '0', '2018-12-05 00:00:00', '2018-12-29 00:00:00')";
 
         $query = $connection->prepare($sql);
-
         $query->execute();
     }
 }

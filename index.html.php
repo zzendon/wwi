@@ -1,6 +1,6 @@
 <?php
 include("./php/connectdb.php");
-
+session_start();
 $categorie_id = 1;
 $search = "";
 
@@ -74,15 +74,23 @@ if (isset($_POST['search']) && !empty($_POST['search'])) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Account</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./pages/register_page.php">Login</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="./pages/overons_page.html.php">Over ons</a>
                 </li>
-
+                <?php
+                if (isset($_SESSION['gebruikers_id']) && !empty($_SESSION['gebruikers_id'])) {
+                    ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./pages/profile_page.php">Account</a>
+                    </li>
+                    <li id="shopping-cart-icon" class="nav-item active ">
+                        <a href="./php/authentication/sign_out.php"> <i class="blackiconcolor fa fa-arrow-circle-right fa-2x"></i>
+                        </a>
+                    </li>
+                <?php } else { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./pages/register_page.php">Login</a>
+                    </li>
+                <?php } ?>
                 <li id="shopping-cart-icon" class="nav-item active ">
                     <a href="./pages/shopping_cart.html.php"> <i class="blackiconcolor fa fa-shopping-cart fa-2x"></i> </a>
                 </li>
