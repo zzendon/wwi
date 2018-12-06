@@ -9,20 +9,20 @@ class WWIInvoice {
     private $totalVat;
     private $sendCosts;
 
-    public function __construct()
+    public function __construct($orderID)
     {
         $invoice = new InvoicePrinter();
         /* Header settings */
-        $invoice->setLogo("../images/Kim_Helmink.png");   //logo image path
+        $invoice->setLogo("../images/logo.png");   //logo image path
         $invoice->setColor("#007fff");      // pdf color scheme
         $invoice->setType("WWI Factuur");    // Invoice Type
-        $invoice->setReference("INV-55033645");   // Reference
+        $invoice->setReference("Factuur #$orderID");   // Reference
         $invoice->setDate(date('M dS ,Y',time()));   //Billing Date
         $invoice->setTime(date('h:i:s A',time()));   //Billing Time
-        $invoice->setDue(date('M dS ,Y',strtotime('+3 months')));    // Due Date
+        $invoice->setDue(date('Y-m-d',strtotime('+3 months')));    // Due Date
         $invoice->setFrom(array("Wide World Importers","WWI","Campus 2, 8017 CA Zwolle","+852 129 209 291"));
-        $invoice->addBadge("Payment Paid");
-        $invoice->addTitle("Important Notice");
+        $invoice->addBadge("Betaling succesvol");
+        $invoice->addTitle("Notities");
         $invoice->addParagraph("Zonder factuur kunt u niet retouneren of uw geld terug krijgen.");
         $invoice->setFooternote("Wide World Importers");
         $this->invoice = $invoice;
@@ -45,10 +45,10 @@ class WWIInvoice {
             $this->sendCosts = 0.00;
         }
 
-        $this->invoice->addTotal("Total",$this->total);
+        $this->invoice->addTotal("Totaal",$this->total);
         $this->invoice->addTotal("BTW 21%", $this->totalVat);
-        $this->invoice->addTotal("Verzend kosten", $this->sendCosts);
-        $this->invoice->addTotal("Total due", $this->total + $this->sendCosts + $this->totalVat ,true);
+        $this->invoice->addTotal("Verzendkosten", $this->sendCosts);
+        $this->invoice->addTotal("Totale kosten", $this->total + $this->sendCosts + $this->totalVat ,true);
 
         $this->invoice->render($invoiceName,'D');
     }
