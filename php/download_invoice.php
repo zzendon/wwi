@@ -3,6 +3,10 @@ include "./connectdb.php";
 include "./wwi_invoice.php";
 include "./utils.php";
 
+if (isset($_GET['orderID']) && !empty($_GET['orderID'])) {
+    $orderID = urldecode(filter_input(INPUT_GET, 'orderID', FILTER_SANITIZE_STRING));
+}
+
 $stockItemsInfo = getStockItemInfoFromSession();
 
 function GetCustomerInformation()
@@ -30,8 +34,8 @@ function GetCustomerInformation()
 
 function generateInvoice()
 {
-    global $stockItemsInfo;
-    $invoice = new WWIInvoice();
+    global $stockItemsInfo, $orderID;
+    $invoice = new WWIInvoice($orderID);
 
     foreach ($stockItemsInfo as $key => $value) {
         $invoice->addItem($value["StockItemName"], "", $value["Quantity"], $value["Tax"], $value["Cost"], 0);
@@ -40,7 +44,7 @@ function generateInvoice()
     $customerInfo = GetCustomerInformation();
 
     $invoice->setToAddressInformation(array($customerInfo["CustomerName"], "", $customerInfo["DeliveryAddressLine1"], $customerInfo["CityName"]));
-    $invoice->render("Invoice #aasdf");
+    $invoice->render("Factuur #$orderID.pdf");
 }
 
 generateInvoice();

@@ -5,9 +5,10 @@ include "../php/utils.php";
 if (isset($_GET['customer_id']) && !empty($_GET['customer_id'])) {
     $customer_id = urldecode(filter_input(INPUT_GET, 'customer_id', FILTER_SANITIZE_STRING));
 }
+$orderid = 0;
 
 function insertOrder() {
-    global $customer_id;
+    global $customer_id,$orderid;
 
     $connection = getConnection();
 
@@ -16,9 +17,9 @@ function insertOrder() {
     $query = $connection->prepare($insertOrder);
     $query->execute();
 
-    $newOrderId = 0;
+    $orderid = 0;
     while ($row = $query->fetch()) {
-        $newOrderId = $row["NewOrderId"];
+        $orderid = $row["NewOrderId"];
     }
 
     // create order
@@ -26,12 +27,12 @@ function insertOrder() {
     $currentDate = date('y:m:d');
 
    $insertOrder = "INSERT INTO `orders` (`OrderId`, `CustomerID`, `SalespersonPersonID`, `ContactPersonID`, `OrderDate`, `ExpectedDeliveryDate`, `IsUndersupplyBackordered`, `PickingCompletedWhen`, `LastEditedBy`, `LastEditedWhen`) 
-            VALUES ('$newOrderId', '$customer_id', '0', '0', '$currentDate', '$deliveryDate', '', 0, '0', '2018-12-05 00:00:00')";
+            VALUES ('$orderid', '$customer_id', '0', '0', '$currentDate', '$deliveryDate', '', 0, '0', '2018-12-05 00:00:00')";
 
     $query = $connection->prepare($insertOrder);
     $query->execute();
 
-    insertOrderLines($newOrderId);
+    insertOrderLines($orderid);
 }
 
 function insertOrderLines($orderId) {
@@ -105,7 +106,7 @@ insertOrder();
         </div>
         <div class="col-md-2"></div>
             <div class="col-4 text-right">
-                <form method="POST" action="../php/download_invoice.php?<?php  if(!empty($customer_id)) { echo ("customer_id=".$customer_id); }?>">
+                <form method="POST" action="../php/download_invoice.php?<?php  if(!empty($customer_id)) { echo ("customer_id=".$customer_id); }?><?php  echo ("&orderID=".$orderid); ?>">
                     <button name="submit"  type="submit" class="btn btn-success" >Download Factuur</button>
                 </form>
             </div>
