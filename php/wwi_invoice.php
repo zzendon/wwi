@@ -1,5 +1,5 @@
 <?php
-require "../libs/pdf-invoice/src/InvoicePrinter.php";
+require "../libraries/pdf-invoice/src/InvoicePrinter.php";
 
 use Konekt\PdfInvoice\InvoicePrinter;
 

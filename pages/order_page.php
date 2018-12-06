@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // check if post is form form.
     if (isset($_POST['name']) && !empty($_POST['name'])) {
         SafeCustomerData();
-        header("Location: ../libs/mollie-api-php/examples/payments/create-payment.php?cost=$costs&customer_id=$customerId");
+        header("Location: ../libraries/mollie-api-php/examples/payments/create-payment.php?cost=$costs&customer_id=$customerId");
         exit;
     }
 }
