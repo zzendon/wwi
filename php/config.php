@@ -9,7 +9,7 @@ class Config
     public function __construct()
     {
         try {
-            $this->config = parse_ini_file($_SERVER['DOCUMENT_ROOT'] .  "/wwi/settings.ini");
+            $this->config = parse_ini_file(dirname($_SERVER['DOCUMENT_ROOT']) . "/settings.ini");
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
