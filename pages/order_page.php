@@ -120,9 +120,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <form action="./order_page.php?customer_id=<?php echo $customerId ?>&cost=<?php echo $costs ?>"
                                   method="post">
                                 <div class="form-group row">
-                                    <label for="name" class="col-4 col-form-label">Voornaam</label>
+                                    <label for="name" class="col-4 col-form-label">Volledige naam*</label>
                                     <div class="col-8">
-                                        <input id="name" name="name" placeholder="First Name" class="form-control here"
+                                        <input id="name" name="name" placeholder="Volledige naam" class="form-control here"
                                                type="text" required="required">
                                     </div>
                                 </div>
@@ -134,44 +134,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="number" class="col-4 col-form-label">Nummer*</label>
+                                    <label for="number" class="col-4 col-form-label">Tel. nummer*</label>
                                     <div class="col-8">
-                                        <input id="text" name="nummber" placeholder="Nummer" class="form-control here"
+                                        <input id="text" name="nummber" placeholder="Tel. nummer" class="form-control here"
                                               pattern="^[0-9]*$" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="website" class="col-4 col-form-label">Website</label>
                                     <div class="col-8">
-                                        <input id="website" name="website" placeholder="website"
+                                        <input id="website" name="website" placeholder="Website"
                                                class="form-control here" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="address1" class="col-4 col-form-label">Address 1</label>
+                                    <label for="address1" class="col-4 col-form-label">Adres 1 *</label>
                                     <div class="col-8">
-                                        <input id="address1" name="address1" placeholder="Address 1"
+                                        <input id="address1" name="address1" placeholder="Adres 1 *"
                                                class="form-control here" type="text" required="required">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="address2" class="col-4 col-form-label">Address 2</label>
+                                    <label for="address2" class="col-4 col-form-label">Adres 2</label>
                                     <div class="col-8">
-                                        <input id="address2" name="address2" placeholder="Address 2"
-                                               class="form-control here" type="text" required="required">
+                                        <input id="address2" name="address2" placeholder="Adres 2"
+                                               class="form-control here" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="address2" class="col-4 col-form-label">Post Code</label>
+                                    <label for="address2" class="col-4 col-form-label">Postcode</label>
                                     <div class="col-8">
                                         <input id="postcode" name="postcode" placeholder="Postcode"
                                                class="form-control here" type="text" required="required">
                                     </div>
                                 </div>
+                                <div class="form-group row" style="text-align: right;">
+                                    <label for="address2" class="col-4 col-form-label">* verplichte velden</label>
+                                    <div class="col-8">
+                                        <label></label>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <div class="offset-0 col-8">
-                                        <button name="submit" type="submit" class="btn btn-primary">Sla veranderingen
-                                            op
+                                        <button name="submit" type="submit" class="btn btn-primary">Sla veranderingen op
                                         </button>
                                     </div>
                                 </div>

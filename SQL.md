@@ -134,3 +134,14 @@ De volgende key wordt weggehaald zodat er meerdere customers de zelfde naam kunn
 ```
 ALTER TABLE ``customers`` DROP INDEX ``UQ_Sales_Customers_CustomerName``;
 ```
+
+## Insert 0 people
+``` 
+INSERT INTO `people` (`PersonID`, `FullName`, `PreferredName`, `SearchName`, `IsPermittedToLogon`, `LogonName`, `IsExternalLogonProvider`, `HashedPassword`, `IsSystemUser`, `IsEmployee`, `IsSalesperson`, `UserPreferences`, `PhoneNumber`, `FaxNumber`, `EmailAddress`, `Photo`, `CustomFields`, `OtherLanguages`, `LastEditedBy`, `ValidFrom`, `ValidTo`) VALUES
+(0, 'No User', 'No User', 'No User', 1, 'No User', 1, NULL, 1, 1, 1, NULL, '3334553', '323223332', 'test@test.nl', NULL, NULL, NULL, 1, '2018-12-07 00:00:00', '2018-12-06 00:00:00'); 
+```
+
+## Reset password
+```
+UPDATE people SET HashedPassword = 0
+```
