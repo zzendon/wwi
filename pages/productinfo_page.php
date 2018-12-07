@@ -52,7 +52,8 @@ function getProductInformation()
     global $id;
 
     $connection = getConnection();
-    $pdo = $connection->prepare("SELECT s.StockItemID, StockItemName, RecommendedRetailPrice, AVG(r.Stars) as Stars FROM stockitems s LEFT JOIN review r ON r.StockItemID = s.StockItemID WHERE s.StockItemID ='$id'");
+    $pdo = $connection->prepare("SELECT s.StockItemID, StockItemName, RecommendedRetailPrice, AVG(r.Stars) as Stars 
+                                            FROM stockitems s LEFT JOIN review r ON r.StockItemID = s.StockItemID WHERE s.StockItemID ='$id'");
     $pdo->execute();
     $stockItemsInfo = array();
 
@@ -178,7 +179,16 @@ function getStockItemCountInArchive($id)
         }
         ?>
 
-        <div class="product-stock">Beschikbaar: <?php echo $itemsAvailible ?> </div>
+        <div class="product-stock">Beschikbaar: <?php if($itemsAvailible > 100){
+            echo "100+";
+            } else {
+            echo $itemsAvailible;  }; ?>
+        </div>
+        <hr>
+        <div class="checks">
+            <img src="images/sign-check-icon.png" width="18px" height="18px" align="left"/><p style="margin-left: 25px; margin-bottom: 10px">Onder de €20,- geen verzendkosten</p>
+            <img src="images/sign-check-icon.png" width="18px" height="18px" align="left"/><p style="margin-left: 25px; margin-bottom: 5px">Vandaag besteld morgen in huis</p>
+        </div>
         <hr>
         <div class="btn-group cart">
             <form method="POST" action="./php/shopping_cart/php_session.php?id=<?php echo $id; ?>">
