@@ -184,7 +184,15 @@ function getCategoriesStockItemInfo($category_id)
                         <div class="card h-30">
                             <a href="index.html.php?stock_item_id=<?php echo $value['StockItemId'] ?>"><img
                                         class="card-img-top"
-                                        src="http://placehold.it/700x400"
+                                        <?php
+                                        if ($key == 0){
+                                            echo "src='images/test1.jpg'";
+                                        }
+                                        else{
+                                            echo "src='http://placehold.it/700x400'";
+                                        }
+                                        ?>
+
                                         alt=""></a>
                             <div class="card-body">
                                 <h4 class="card-title">
